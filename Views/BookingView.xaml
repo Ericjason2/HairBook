@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HairBook.ViewModels"
+             xmlns:models="clr-namespace:HairBook.Models"
+             x:Class="HairBook.Views.BookingView"
+             x:DataType="vm:BookingViewModel"
+             BackgroundColor="{StaticResource Bone}">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Header: Back Button + Progress Bar -->
+        <VerticalStackLayout Grid.Row="0" Spacing="16" Padding="20,16,20,12">
+            <Grid ColumnDefinitions="Auto,*">
+                <Button Grid.Column="0"
+                        Text="&#xe048;"
+                        FontFamily="Lucide"
+                        Command="{Binding PreviousStepCommand}"
+                        BackgroundColor="{StaticResource Transparent}"
+                        TextColor="{StaticResource Ink}"
+                        FontSize="18"
+                        HorizontalOptions="Start"
+                        Padding="0"
+                        WidthRequest="36"
+                        HeightRequest="36" />
+                <Label Grid.Column="1"
+                       Text="Réservation"
+                       FontFamily="OpenSansSemibold"
+                       FontSize="18"
+                       TextColor="{StaticResource Ink}"
+                       HorizontalOptions="Center"
+                       Margin="-36,0,0,0"
+                       VerticalOptions="Center" />
+            </Grid>
+
+            <!-- 4-step Progress Indicator -->
+            <VerticalStackLayout Spacing="6">
+                <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="6">
+                    <Border Grid.Column="0" HeightRequest="4" StrokeThickness="0" StrokeShape="RoundRectangle 2" BackgroundColor="{StaticResource Ink}" />
+
+                    <Border Grid.Column="1" HeightRequest="4" StrokeThickness="0" StrokeShape="RoundRectangle 2" BackgroundColor="{StaticResource Ink}">
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding Step}" Value="0">
+                                <Setter Property="BackgroundColor" Value="{StaticResource Sand}" />
+                            </DataTrigger>
+                        </Border.Triggers>
+                    </Border>
+
+                    <Border Grid.Column="2" HeightRequest="4" StrokeThickness="0" StrokeShape="RoundRectangle 2" BackgroundColor="{StaticResource Sand}">
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding Step}" Value="2">
+                                <Setter Property="BackgroundColor" Value="{StaticResource Ink}" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Border" Binding="{Binding Step}" Value="3">
+                                <Setter Property="BackgroundColor" Value="{StaticResource Ink}" />
+                            </DataTrigger>
+                        </Border.Triggers>
+                    </Border>
+
+                    <Border Grid.Column="3" HeightRequest="4" StrokeThickness="0" StrokeShape="RoundRectangle 2" BackgroundColor="{StaticResource Sand}">
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding Step}" Value="3">
+                                <Setter Property="BackgroundColor" Value="{StaticResource Ink}" />
+                            </DataTrigger>
+                        </Border.Triggers>
+                    </Border>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*,*,*" Margin="0,2,0,0">
+                    <Label Grid.Column="0" Text="Prestation" FontSize="11" FontFamily="OpenSansSemibold" TextColor="{StaticResource Ink}" HorizontalTextAlignment="Start" />
+                    <Label Grid.Column="1" Text="Date" FontSize="11" FontFamily="OpenSansSemibold" TextColor="{StaticResource Ink}" HorizontalTextAlignment="Center">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding Step}" Value="0">
+                                <Setter Property="TextColor" Value="{StaticResource Muted}" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Label Grid.Column="2" Text="Heure" FontSize="11" FontFamily="OpenSansSemibold" TextColor="{StaticResource Muted}" HorizontalTextAlignment="Center">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding Step}" Value="2">
+                                <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Label" Binding="{Binding Step}" Value="3">
+                                <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Label Grid.Column="3" Text="Confirmation" FontSize="11" FontFamily="OpenSansSemibold" TextColor="{StaticResource Muted}" HorizontalTextAlignment="End">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding Step}" Value="3">
+                                <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Grid>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+
+        <!-- Main Step Content -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="20" Padding="20,10,20,24">
+                <!-- Step Title -->
+                <Label Text="{Binding StepTitle}"
+                       Style="{StaticResource DisplayTitle}"
+                       FontSize="28" />
+
+                <!-- STEP 0: Services List -->
+                <VerticalStackLayout Spacing="10" IsVisible="False">
+                    <VerticalStackLayout.Triggers>
+                        <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding Step}" Value="0">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </VerticalStackLayout.Triggers>
+
+                    <VerticalStackLayout Spacing="10" BindableLayout.ItemsSource="{Binding BarberServices}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:Service">
+                                <Border Stroke="{StaticResource Linen}"
+                                        StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 20"
+                                        BackgroundColor="{StaticResource Cream}"
+                                        Padding="16">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BookingViewModel}}, Path=SelectServiceCommand}"
+                                                              CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                    <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                            <Label Text="{Binding Name}" FontFamily="OpenSansSemibold" FontSize="16" TextColor="{StaticResource Ink}" />
+                                            <Label Text="{Binding Description}" FontSize="13" TextColor="{StaticResource Muted}" />
+                                            <HorizontalStackLayout Spacing="6" Margin="0,4,0,0">
+                                                <Label Text="{Binding FormattedPrice}" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" />
+                                                <Label Text="{Binding FormattedDuration, StringFormat='· {0}'}" FontSize="13" TextColor="{StaticResource Muted}" />
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+
+                                        <Border Grid.Column="1"
+                                                StrokeThickness="2"
+                                                Stroke="{StaticResource Ink}"
+                                                StrokeShape="RoundRectangle 12"
+                                                WidthRequest="24"
+                                                HeightRequest="24"
+                                                VerticalOptions="Center">
+                                            <Border.Triggers>
+                                                <DataTrigger TargetType="Border" Binding="{Binding Id}" Value="{Binding Source={RelativeSource AncestorType={x:Type vm:BookingViewModel}}, Path=SelectedService.Id}">
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource Ink}" />
+                                                </DataTrigger>
+                                            </Border.Triggers>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- STEP 1: Date Calendar -->
+                <VerticalStackLayout Spacing="16" IsVisible="False">
+                    <VerticalStackLayout.Triggers>
+                        <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding Step}" Value="1">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </VerticalStackLayout.Triggers>
+
+                    <!-- Calendar Card -->
+                    <Border Style="{StaticResource CardBorder}" Padding="16">
+                        <VerticalStackLayout Spacing="16">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Grid.Column="0" Text="Octobre" FontFamily="OpenSansSemibold" FontSize="16" TextColor="{StaticResource Ink}" />
+                                <Label Grid.Column="1" Text="19 jours disponibles" Style="{StaticResource CaptionSubtle}" />
+                            </Grid>
+
+                            <!-- Weekday Headers: L M M J V S D -->
+                            <Grid ColumnDefinitions="*,*,*,*,*,*,*">
+                                <Label Grid.Column="0" Text="L" Style="{StaticResource CaptionSubtle}" HorizontalTextAlignment="Center" />
+                                <Label Grid.Column="1" Text="M" Style="{StaticResource CaptionSubtle}" HorizontalTextAlignment="Center" />
+                                <Label Grid.Column="2" Text="M" Style="{StaticResource CaptionSubtle}" HorizontalTextAlignment="Center" />
+                                <Label Grid.Column="3" Text="J" Style="{StaticResource CaptionSubtle}" HorizontalTextAlignment="Center" />
+                                <Label Grid.Column="4" Text="V" Style="{StaticResource CaptionSubtle}" HorizontalTextAlignment="Center" />
+                                <Label Grid.Column="5" Text="S" Style="{StaticResource CaptionSubtle}" HorizontalTextAlignment="Center" />
+                                <Label Grid.Column="6" Text="D" Style="{StaticResource CaptionSubtle}" HorizontalTextAlignment="Center" />
+                            </Grid>
+
+                            <!-- Days Grid -->
+                            <FlexLayout BindableLayout.ItemsSource="{Binding CalendarDays}"
+                                        Wrap="Wrap"
+                                        JustifyContent="SpaceBetween">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:CalendarDayItem">
+                                        <Border StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 20"
+                                                WidthRequest="38"
+                                                HeightRequest="38"
+                                                Margin="0,2">
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BookingViewModel}}, Path=SelectDayCommand}"
+                                                                      CommandParameter="{Binding .}" />
+                                            </Border.GestureRecognizers>
+                                            <Border.Triggers>
+                                                <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="False">
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource Transparent}" />
+                                                </DataTrigger>
+                                            </Border.Triggers>
+                                            <Label Text="{Binding Day}"
+                                                   FontFamily="OpenSansSemibold"
+                                                   FontSize="14"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding Available}" Value="True">
+                                                        <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding Available}" Value="False">
+                                                        <Setter Property="TextColor" Value="{StaticResource Subtle}" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                        </Border>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </FlexLayout>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Legend -->
+                    <HorizontalStackLayout Spacing="16" Padding="4,0">
+                        <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                            <Border BackgroundColor="{StaticResource Accent}" WidthRequest="10" HeightRequest="10" StrokeThickness="0" StrokeShape="RoundRectangle 5" />
+                            <Label Text="Sélectionné" Style="{StaticResource CaptionSubtle}" />
+                        </HorizontalStackLayout>
+                        <Label Text="12 Complet" Style="{StaticResource CaptionSubtle}" TextDecorations="Strikethrough" />
+                        <Label Text="Fermé le dimanche" Style="{StaticResource CaptionSubtle}" />
+                    </HorizontalStackLayout>
+
+                    <!-- Chosen Date Box -->
+                    <Border Stroke="{StaticResource Linen}"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 16"
+                            BackgroundColor="{StaticResource Cream}"
+                            Padding="16,12"
+                            IsVisible="{Binding SelectedDay, Converter={StaticResource StringNotEmptyConverter}}">
+                        <HorizontalStackLayout Spacing="6">
+                            <Label Text="Date choisie :" Style="{StaticResource BodyMuted}" />
+                            <Label Text="{Binding SelectedDateLabel}" FontFamily="OpenSansSemibold" TextColor="{StaticResource Ink}" />
+                        </HorizontalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- STEP 2: Time Slots -->
+                <VerticalStackLayout Spacing="20" IsVisible="False">
+                    <VerticalStackLayout.Triggers>
+                        <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding Step}" Value="2">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </VerticalStackLayout.Triggers>
+
+                    <!-- Chosen Date Reminder with Edit button -->
+                    <Border Style="{StaticResource CardBorder}" Padding="16,12">
+                        <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                            <HorizontalStackLayout Grid.Column="0" Spacing="8" VerticalOptions="Center">
+                                <Label Text="&#xe063;" FontFamily="Lucide" FontSize="15" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Text="{Binding SelectedDateLabel}" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" />
+                            </HorizontalStackLayout>
+                            <Button Grid.Column="1"
+                                    Text="Modifier"
+                                    Command="{Binding PreviousStepCommand}"
+                                    BackgroundColor="{StaticResource Transparent}"
+                                    TextColor="{StaticResource Ink}"
+                                    FontFamily="OpenSansSemibold"
+                                    FontSize="13"
+                                    Padding="0"
+                                    HeightRequest="30" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Morning Slots -->
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Matin" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource Ink}" />
+                        <FlexLayout BindableLayout.ItemsSource="{Binding MorningSlots}"
+                                    Wrap="Wrap"
+                                    JustifyContent="SpaceBetween">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <Button Text="{Binding .}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BookingViewModel}}, Path=SelectTimeCommand}"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="{StaticResource Cream}"
+                                            TextColor="{StaticResource Ink}"
+                                            WidthRequest="100"
+                                            HeightRequest="48"
+                                            CornerRadius="16"
+                                            FontFamily="OpenSansSemibold"
+                                            FontSize="15"
+                                            Margin="0,0,0,10">
+                                        <Button.Triggers>
+                                            <DataTrigger TargetType="Button" Binding="{Binding .}" Value="{Binding Source={RelativeSource AncestorType={x:Type vm:BookingViewModel}}, Path=SelectedTime}">
+                                                <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                                                <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                                            </DataTrigger>
+                                        </Button.Triggers>
+                                    </Button>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                    </VerticalStackLayout>
+
+                    <!-- Afternoon Slots -->
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Après-midi" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource Ink}" />
+                        <FlexLayout BindableLayout.ItemsSource="{Binding AfternoonSlots}"
+                                    Wrap="Wrap"
+                                    JustifyContent="SpaceBetween">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <Button Text="{Binding .}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BookingViewModel}}, Path=SelectTimeCommand}"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="{StaticResource Cream}"
+                                            TextColor="{StaticResource Ink}"
+                                            WidthRequest="100"
+                                            HeightRequest="48"
+                                            CornerRadius="16"
+                                            FontFamily="OpenSansSemibold"
+                                            FontSize="15"
+                                            Margin="0,0,0,10">
+                                        <Button.Triggers>
+                                            <DataTrigger TargetType="Button" Binding="{Binding .}" Value="{Binding Source={RelativeSource AncestorType={x:Type vm:BookingViewModel}}, Path=SelectedTime}">
+                                                <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                                                <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                                            </DataTrigger>
+                                        </Button.Triggers>
+                                    </Button>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- STEP 3: Summary Confirmation -->
+                <VerticalStackLayout Spacing="16" IsVisible="False">
+                    <VerticalStackLayout.Triggers>
+                        <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding Step}" Value="3">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </VerticalStackLayout.Triggers>
+
+                    <!-- Summary Card -->
+                    <Border Style="{StaticResource CardBorder}" Padding="20">
+                        <VerticalStackLayout Spacing="16">
+                            <!-- Barber Header -->
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" VerticalOptions="Center">
+                                <Border Grid.Column="0"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 18"
+                                        WidthRequest="56"
+                                        HeightRequest="56">
+                                    <Image Source="{Binding Barber.Avatar}" Aspect="AspectFill" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="{Binding Barber.Name}" FontFamily="OpenSansSemibold" FontSize="16" TextColor="{StaticResource Ink}" />
+                                    <HorizontalStackLayout Spacing="4">
+                                        <Label Text="&#xe111;" FontFamily="Lucide" FontSize="12" TextColor="{StaticResource Muted}" VerticalOptions="Center" />
+                                        <Label Text="{Binding Barber.Location}" FontSize="13" TextColor="{StaticResource Muted}" />
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <BoxView HeightRequest="1" Color="{StaticResource Linen}" />
+
+                            <!-- Appointment Rows -->
+                            <Grid ColumnDefinitions="*,Auto" Padding="0,4">
+                                <Label Grid.Column="0" Text="Prestation" Style="{StaticResource BodyMuted}" />
+                                <Label Grid.Column="1" Text="{Binding SelectedService.Name}" FontFamily="OpenSansSemibold" TextColor="{StaticResource Ink}" />
+                            </Grid>
+
+                            <Grid ColumnDefinitions="*,Auto" Padding="0,4">
+                                <Label Grid.Column="0" Text="Date" Style="{StaticResource BodyMuted}" />
+                                <Label Grid.Column="1" Text="{Binding SelectedDateLabel}" FontFamily="OpenSansSemibold" TextColor="{StaticResource Ink}" />
+                            </Grid>
+
+                            <Grid ColumnDefinitions="*,Auto" Padding="0,4">
+                                <Label Grid.Column="0" Text="Heure" Style="{StaticResource BodyMuted}" />
+                                <Label Grid.Column="1" Text="{Binding SelectedTime}" FontFamily="OpenSansSemibold" TextColor="{StaticResource Ink}" />
+                            </Grid>
+
+                            <Grid ColumnDefinitions="*,Auto" Padding="0,4">
+                                <Label Grid.Column="0" Text="Durée" Style="{StaticResource BodyMuted}" />
+                                <Label Grid.Column="1" Text="{Binding SelectedService.FormattedDuration}" FontFamily="OpenSansSemibold" TextColor="{StaticResource Ink}" />
+                            </Grid>
+
+                            <BoxView HeightRequest="1" Color="{StaticResource Linen}" />
+
+                            <!-- Total Price -->
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Grid.Column="0" Text="Prix" FontFamily="OpenSansSemibold" FontSize="16" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="{Binding SelectedService.FormattedPrice}" Style="{StaticResource DisplayTitle}" FontSize="24" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Label Text="ℹ Paiement sur place. Annulation gratuite jusqu’à 2 h avant le rendez-vous."
+                           Style="{StaticResource CaptionSubtle}"
+                           LineHeight="1.3" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Sticky Footer Action -->
+        <Border Grid.Row="2"
+                Stroke="{StaticResource Linen}"
+                StrokeThickness="1"
+                StrokeShape="Rectangle"
+                BackgroundColor="{StaticResource Bone}"
+                Padding="20,12,20,20">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16" VerticalOptions="Center">
+                <VerticalStackLayout Grid.Column="0"
+                                     VerticalOptions="Center"
+                                     IsVisible="{Binding SelectedService, Converter={StaticResource StringNotEmptyConverter}}">
+                    <Label Text="{Binding SelectedService.Name}" Style="{StaticResource CaptionSubtle}" MaxLines="1" />
+                    <Label Text="{Binding SelectedService.FormattedPrice}" FontFamily="OpenSansSemibold" FontSize="16" TextColor="{StaticResource Ink}" />
+                </VerticalStackLayout>
+
+                <!-- Next or Confirm Button -->
+                <Button Grid.Column="1"
+                        IsEnabled="{Binding CanContinue}"
+                        Style="{StaticResource PrimaryBtn}"
+                        Text="Continuer"
+                        Command="{Binding NextStepCommand}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding Step}" Value="3">
+                            <Setter Property="Text" Value="Confirmer le rendez-vous" />
+                            <Setter Property="Command" Value="{Binding ConfirmBookingCommand}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+            </Grid>
+        </Border>
+    </Grid>
+</ContentView>

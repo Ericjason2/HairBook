@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HairBook.ViewModels"
+             x:Class="HairBook.Views.ProAccountView"
+             x:DataType="vm:ProAccountViewModel"
+             BackgroundColor="{StaticResource Bone}">
+
+    <Grid>
+        <!-- Main Scrollable Content -->
+        <ScrollView>
+            <VerticalStackLayout Padding="20,16,20,32" Spacing="24">
+
+                <!-- Header Title -->
+                <Label Text="Mon compte"
+                       FontFamily="DMSerifDisplay"
+                       FontSize="30"
+                       TextColor="{StaticResource Ink}" />
+
+                <!-- Profile Card -->
+                <Border StrokeShape="RoundRectangle 20"
+                        StrokeThickness="1"
+                        Stroke="{StaticResource Sand}"
+                        BackgroundColor="{StaticResource White}"
+                        Padding="16">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16" VerticalOptions="Center">
+                        <Border Grid.Column="0"
+                                WidthRequest="72"
+                                HeightRequest="72"
+                                StrokeShape="RoundRectangle 24"
+                                StrokeThickness="0">
+                            <Image Source="{Binding CurrentPro.Avatar}"
+                                   Aspect="AspectFill" />
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="6">
+                            <Label Text="{Binding CurrentPro.Name}"
+                                   FontFamily="OpenSansBold"
+                                   FontSize="18"
+                                   TextColor="{StaticResource Ink}" />
+
+                            <HorizontalStackLayout Spacing="10">
+                                <Border BackgroundColor="{StaticResource Accent}"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 8"
+                                        Padding="8,3">
+                                    <HorizontalStackLayout Spacing="4">
+                                        <Label Text="&#xe06c;"
+                                               FontFamily="Lucide"
+                                               FontSize="11"
+                                               TextColor="{StaticResource Ink}"
+                                               VerticalOptions="Center" />
+                                        <Label Text="Barber Pro"
+                                               FontSize="12"
+                                               FontFamily="OpenSansSemibold"
+                                               TextColor="{StaticResource Ink}"
+                                               VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </Border>
+
+                                <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                                    <Label Text="&#xe176;"
+                                           FontFamily="Lucide"
+                                           FontSize="13"
+                                           TextColor="{StaticResource Ink}"
+                                           VerticalOptions="Center" />
+                                    <Label Text="{Binding CurrentPro.Rating, StringFormat='{0:F1}'}"
+                                           FontFamily="OpenSansBold"
+                                           FontSize="13"
+                                           TextColor="{StaticResource Ink}" />
+                                </HorizontalStackLayout>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- Voir mon profil public -->
+                <Button Text="Voir mon profil public"
+                        Command="{Binding ViewPublicProfileCommand}"
+                        Style="{StaticResource OutlineButtonStyle}"
+                        CornerRadius="16"
+                        HeightRequest="48" />
+
+                <!-- Section: Mon activité -->
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="MON ACTIVITÉ"
+                           FontSize="12"
+                           FontFamily="OpenSansBold"
+                           TextColor="{StaticResource Subtle}"
+                           Margin="4,0,0,0" />
+
+                    <Border StrokeShape="RoundRectangle 18"
+                            StrokeThickness="1"
+                            Stroke="{StaticResource Sand}"
+                            BackgroundColor="{StaticResource White}"
+                            Padding="6,2">
+                        <VerticalStackLayout>
+                            <!-- Row: Profil professionnel -->
+                            <Grid ColumnDefinitions="36,*,Auto" Padding="12,14">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenProProfileCommand}" />
+                                </Grid.GestureRecognizers>
+                                <Label Grid.Column="0" Text="&#xe062;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="Profil professionnel" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="&#xe06f;" FontFamily="Lucide" FontSize="16" TextColor="{StaticResource Subtle}" VerticalOptions="Center" />
+                            </Grid>
+
+                            <BoxView HeightRequest="1" Color="{StaticResource Cream}" Margin="48,0,0,0" />
+
+                            <!-- Row: Mes horaires -->
+                            <Grid ColumnDefinitions="36,*,Auto" Padding="12,14">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenProHoursCommand}" />
+                                </Grid.GestureRecognizers>
+                                <Label Grid.Column="0" Text="&#xe087;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="Mes horaires" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="&#xe06f;" FontFamily="Lucide" FontSize="16" TextColor="{StaticResource Subtle}" VerticalOptions="Center" />
+                            </Grid>
+
+                            <BoxView HeightRequest="1" Color="{StaticResource Cream}" Margin="48,0,0,0" />
+
+                            <!-- Row: Historique des rendez-vous -->
+                            <Grid ColumnDefinitions="36,*,Auto" Padding="12,14">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenProHistoryCommand}" />
+                                </Grid.GestureRecognizers>
+                                <Label Grid.Column="0" Text="&#xe063;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="Historique des rendez-vous" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="&#xe06f;" FontFamily="Lucide" FontSize="16" TextColor="{StaticResource Subtle}" VerticalOptions="Center" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Section: Compte -->
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="COMPTE"
+                           FontSize="12"
+                           FontFamily="OpenSansBold"
+                           TextColor="{StaticResource Subtle}"
+                           Margin="4,0,0,0" />
+
+                    <Border StrokeShape="RoundRectangle 18"
+                            StrokeThickness="1"
+                            Stroke="{StaticResource Sand}"
+                            BackgroundColor="{StaticResource White}"
+                            Padding="6,2">
+                        <VerticalStackLayout>
+                            <!-- Row: Notifications -->
+                            <Grid ColumnDefinitions="36,*,Auto" Padding="12,10">
+                                <Label Grid.Column="0" Text="&#xe059;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="Notifications" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Switch Grid.Column="2"
+                                        IsToggled="{Binding NotificationsEnabled}"
+                                        OnColor="{StaticResource Ink}"
+                                        ThumbColor="{StaticResource White}"
+                                        VerticalOptions="Center" />
+                            </Grid>
+
+                            <BoxView HeightRequest="1" Color="{StaticResource Cream}" Margin="48,0,0,0" />
+
+                            <!-- Row: Aide -->
+                            <Grid ColumnDefinitions="36,*,Auto" Padding="12,14">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ShowToastCommand}" CommandParameter="Centre d’aide bientôt disponible" />
+                                </Grid.GestureRecognizers>
+                                <Label Grid.Column="0" Text="&#xe04f;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="Aide" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="&#xe06f;" FontFamily="Lucide" FontSize="16" TextColor="{StaticResource Subtle}" VerticalOptions="Center" />
+                            </Grid>
+
+                            <BoxView HeightRequest="1" Color="{StaticResource Cream}" Margin="48,0,0,0" />
+
+                            <!-- Row: Passer en espace client -->
+                            <Grid ColumnDefinitions="36,*,Auto" Padding="12,14">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SwitchToClientModeCommand}" />
+                                </Grid.GestureRecognizers>
+                                <Label Grid.Column="0" Text="&#xe19f;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="Passer en espace client" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="&#xe06f;" FontFamily="Lucide" FontSize="16" TextColor="{StaticResource Subtle}" VerticalOptions="Center" />
+                            </Grid>
+
+                            <BoxView HeightRequest="1" Color="{StaticResource Cream}" Margin="48,0,0,0" />
+
+                            <!-- Row: Déconnexion -->
+                            <Grid ColumnDefinitions="36,*,Auto" Padding="12,14">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenLogoutCommand}" />
+                                </Grid.GestureRecognizers>
+                                <Label Grid.Column="0" Text="&#xe10e;" FontFamily="Lucide" FontSize="18" TextColor="#DC2626" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="Déconnexion" FontFamily="OpenSansSemibold" FontSize="15" TextColor="#DC2626" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="&#xe06f;" FontFamily="Lucide" FontSize="16" TextColor="{StaticResource Subtle}" VerticalOptions="Center" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Logout Confirmation Modal Backdrop -->
+        <BoxView BackgroundColor="#80000000"
+                 IsVisible="{Binding IsLogoutModalOpen}">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CancelLogoutCommand}" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+
+        <!-- Logout Modal Card -->
+        <Border StrokeShape="RoundRectangle 24"
+                StrokeThickness="0"
+                BackgroundColor="{StaticResource White}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                WidthRequest="340"
+                Padding="24"
+                IsVisible="{Binding IsLogoutModalOpen}">
+            <VerticalStackLayout Spacing="16">
+                <Label Text="Se déconnecter ?"
+                       FontFamily="OpenSansBold"
+                       FontSize="18"
+                       TextColor="{StaticResource Ink}"
+                       HorizontalOptions="Center" />
+
+                <Label Text="Vous ne recevrez plus les nouvelles réservations sur cet appareil."
+                       FontFamily="OpenSansRegular"
+                       FontSize="14"
+                       TextColor="{StaticResource Muted}"
+                       HorizontalTextAlignment="Center"
+                       LineHeight="1.2" />
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,8,0,0">
+                    <Button Grid.Column="0"
+                            Text="Annuler"
+                            Command="{Binding CancelLogoutCommand}"
+                            Style="{StaticResource OutlineButtonStyle}"
+                            CornerRadius="14"
+                            HeightRequest="46" />
+                    <Button Grid.Column="1"
+                            Text="Déconnexion"
+                            Command="{Binding ConfirmLogoutCommand}"
+                            BackgroundColor="#DC2626"
+                            TextColor="{StaticResource White}"
+                            FontFamily="OpenSansSemibold"
+                            CornerRadius="14"
+                            HeightRequest="46" />
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+
+</ContentView>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HairBook.ViewModels"
+             x:Class="HairBook.Views.LoginView"
+             x:DataType="vm:LoginViewModel"
+             BackgroundColor="{StaticResource Bone}">
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Spacing="24" Padding="24,32,24,32">
+                <!-- Brand Header -->
+                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                    <Border StrokeThickness="0"
+                            StrokeShape="RoundRectangle 12"
+                            BackgroundColor="{StaticResource Accent}"
+                            WidthRequest="36"
+                            HeightRequest="36">
+                        <Label Text="&#xe14e;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                    <Label Text="HairBook" Style="{StaticResource DisplayTitle}" FontSize="24" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <!-- Titles -->
+                <VerticalStackLayout Spacing="6" Margin="0,16,0,0">
+                    <Label Text="Bon retour." Style="{StaticResource DisplayTitle}" FontSize="36" />
+                    <Label Text="Connectez-vous pour gérer vos rendez-vous." Style="{StaticResource BodyMuted}" FontSize="15" />
+                </VerticalStackLayout>
+
+                <!-- Role Selector Tabs -->
+                <Border Stroke="{StaticResource Linen}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 16"
+                        BackgroundColor="{StaticResource Cream}"
+                        Padding="4">
+                    <Grid ColumnDefinitions="*,*">
+                        <!-- Client Tab Button -->
+                        <Button Grid.Column="0"
+                                Text="Client"
+                                Command="{Binding SetRoleCommand}"
+                                CommandParameter="client"
+                                HeightRequest="44"
+                                CornerRadius="12"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="14">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button" Binding="{Binding Role}" Value="client">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                                    <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Button" Binding="{Binding Role}" Value="pro">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Transparent}" />
+                                    <Setter Property="TextColor" Value="{StaticResource Muted}" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+
+                        <!-- Pro Tab Button -->
+                        <Button Grid.Column="1"
+                                Text="Coiffeur / Barber"
+                                Command="{Binding SetRoleCommand}"
+                                CommandParameter="pro"
+                                HeightRequest="44"
+                                CornerRadius="12"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="14">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button" Binding="{Binding Role}" Value="pro">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                                    <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Button" Binding="{Binding Role}" Value="client">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Transparent}" />
+                                    <Setter Property="TextColor" Value="{StaticResource Muted}" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- Form Inputs -->
+                <VerticalStackLayout Spacing="16">
+                    <!-- Identifier -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Email ou numéro de téléphone" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                        <Border Style="{StaticResource SearchBoxBorder}">
+                            <Entry Text="{Binding Identifier}"
+                                   FontFamily="OpenSansRegular"
+                                   FontSize="15"
+                                   TextColor="{StaticResource Ink}"
+                                   PlaceholderColor="{StaticResource Muted}"
+                                   VerticalOptions="Center" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Password -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Mot de passe" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                        <Border Style="{StaticResource SearchBoxBorder}">
+                            <Entry Text="{Binding Password}"
+                                   IsPassword="True"
+                                   FontFamily="OpenSansRegular"
+                                   FontSize="15"
+                                   TextColor="{StaticResource Ink}"
+                                   PlaceholderColor="{StaticResource Muted}"
+                                   VerticalOptions="Center" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Forgot password link -->
+                    <Button Text="Mot de passe oublié ?"
+                            Command="{Binding OpenForgotSheetCommand}"
+                            BackgroundColor="{StaticResource Transparent}"
+                            TextColor="{StaticResource Ink}"
+                            FontFamily="OpenSansSemibold"
+                            FontSize="13"
+                            HorizontalOptions="End"
+                            Padding="0"
+                            HeightRequest="30" />
+                </VerticalStackLayout>
+
+                <!-- Submit Button -->
+                <Button Text="Se connecter"
+                        Command="{Binding SubmitLoginCommand}"
+                        Style="{StaticResource PrimaryBtn}"
+                        Margin="0,8,0,0" />
+
+                <!-- Register Footer Link -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="4" Margin="0,32,0,0">
+                    <Label Text="Pas encore de compte ?" Style="{StaticResource BodyMuted}" />
+                    <Button Text="Créer un compte"
+                            Command="{Binding OpenRegisterCommand}"
+                            BackgroundColor="{StaticResource Transparent}"
+                            TextColor="{StaticResource Ink}"
+                            FontFamily="OpenSansSemibold"
+                            FontSize="14"
+                            Padding="0"
+                            HeightRequest="30" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Forgot Password Modal Overlay -->
+        <Grid BackgroundColor="#66000000"
+              IsVisible="{Binding IsForgotSheetOpen}"
+              Padding="20"
+              VerticalOptions="FillAndExpand"
+              HorizontalOptions="FillAndExpand">
+            <Border StrokeThickness="0"
+                    StrokeShape="RoundRectangle 28"
+                    BackgroundColor="{StaticResource Bone}"
+                    VerticalOptions="Center"
+                    Padding="24"
+                    MaximumWidthRequest="400">
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Mot de passe oublié" Style="{StaticResource DisplayTitle}" FontSize="24" />
+                    <Label Text="Saisissez votre email, nous vous enverrons un lien pour choisir un nouveau mot de passe." Style="{StaticResource BodyMuted}" />
+
+                    <Border Style="{StaticResource SearchBoxBorder}">
+                        <Entry Text="{Binding ForgotEmail}"
+                               Placeholder="vous@mail.com"
+                               FontFamily="OpenSansRegular"
+                               FontSize="15"
+                               TextColor="{StaticResource Ink}"
+                               VerticalOptions="Center" />
+                    </Border>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,12,0,0">
+                        <Button Grid.Column="0"
+                                Text="Annuler"
+                                Command="{Binding CloseForgotSheetCommand}"
+                                Style="{StaticResource OutlineBtn}" />
+                        <Button Grid.Column="1"
+                                Text="Envoyer"
+                                Command="{Binding SendResetLinkCommand}"
+                                Style="{StaticResource PrimaryBtn}"
+                                HeightRequest="46" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentView>

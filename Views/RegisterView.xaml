@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HairBook.ViewModels"
+             x:Class="HairBook.Views.RegisterView"
+             x:DataType="vm:RegisterViewModel"
+             BackgroundColor="{StaticResource Bone}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="24,20,24,32">
+            <!-- Header with Back -->
+            <Button Text="&#xe048;"
+                    FontFamily="Lucide"
+                    Command="{Binding GoBackCommand}"
+                    BackgroundColor="{StaticResource Transparent}"
+                    TextColor="{StaticResource Ink}"
+                    FontSize="20"
+                    HorizontalOptions="Start"
+                    Padding="0"
+                    WidthRequest="40"
+                    HeightRequest="40" />
+
+            <!-- Title -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Créer un compte" Style="{StaticResource DisplayTitle}" FontSize="34" />
+                <Label Text="Quelques infos et c’est parti." Style="{StaticResource BodyMuted}" FontSize="15" />
+            </VerticalStackLayout>
+
+            <!-- Role Selection Cards -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Je suis :" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <!-- Client Option -->
+                    <Border Grid.Column="0"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 20"
+                            Padding="16">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SetRoleCommand}" CommandParameter="client" />
+                        </Border.GestureRecognizers>
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding Role}" Value="client">
+                                <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                                <Setter Property="Stroke" Value="{StaticResource Accent}" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Border" Binding="{Binding Role}" Value="pro">
+                                <Setter Property="BackgroundColor" Value="{StaticResource Cream}" />
+                                <Setter Property="Stroke" Value="{StaticResource Linen}" />
+                            </DataTrigger>
+                        </Border.Triggers>
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="&#xe19f;" FontFamily="Lucide" FontSize="20" TextColor="{StaticResource Ink}" />
+                            <Label Text="Client" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource Ink}" />
+                            <Label Text="Je réserve mes coupes" FontSize="12" TextColor="{StaticResource Muted}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Pro Option -->
+                    <Border Grid.Column="1"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 20"
+                            Padding="16">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SetRoleCommand}" CommandParameter="pro" />
+                        </Border.GestureRecognizers>
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding Role}" Value="pro">
+                                <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                                <Setter Property="Stroke" Value="{StaticResource Accent}" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Border" Binding="{Binding Role}" Value="client">
+                                <Setter Property="BackgroundColor" Value="{StaticResource Cream}" />
+                                <Setter Property="Stroke" Value="{StaticResource Linen}" />
+                            </DataTrigger>
+                        </Border.Triggers>
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="&#xe14e;" FontFamily="Lucide" FontSize="20" TextColor="{StaticResource Ink}" />
+                            <Label Text="Barber / Pro" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource Ink}" />
+                            <Label Text="Je reçois des clients" FontSize="12" TextColor="{StaticResource Muted}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+            </VerticalStackLayout>
+
+            <!-- Inputs -->
+            <VerticalStackLayout Spacing="14">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Nom complet" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                    <Border Style="{StaticResource SearchBoxBorder}">
+                        <Entry Text="{Binding Name}" Placeholder="Eric Kouamé" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Email" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                    <Border Style="{StaticResource SearchBoxBorder}">
+                        <Entry Text="{Binding Email}" Placeholder="vous@mail.com" Keyboard="Email" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Numéro de téléphone" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                    <Border Style="{StaticResource SearchBoxBorder}">
+                        <Entry Text="{Binding Phone}" Placeholder="+225 07 00 00 00 00" Keyboard="Telephone" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Mot de passe" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                    <Border Style="{StaticResource SearchBoxBorder}">
+                        <Entry Text="{Binding Password}" IsPassword="True" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Confirmation du mot de passe" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                    <Border Style="{StaticResource SearchBoxBorder}">
+                        <Entry Text="{Binding ConfirmPassword}" IsPassword="True" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                    </Border>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- Submit -->
+            <Button Text="Créer mon compte"
+                    Command="{Binding SubmitRegisterCommand}"
+                    Style="{StaticResource PrimaryBtn}"
+                    Margin="0,8,0,0" />
+
+            <Label Text="En créant un compte, vous acceptez nos conditions d’utilisation et notre politique de confidentialité."
+                   Style="{StaticResource CaptionSubtle}"
+                   HorizontalTextAlignment="Center"
+                   LineHeight="1.2" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentView>

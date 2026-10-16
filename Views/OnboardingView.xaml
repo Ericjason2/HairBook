@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HairBook.ViewModels"
+             x:Class="HairBook.Views.OnboardingView"
+             x:DataType="vm:OnboardingViewModel"
+             BackgroundColor="{StaticResource Bone}">
+
+    <Grid RowDefinitions="*,Auto" Padding="16,10,16,24">
+        <!-- Image Card Container -->
+        <Border Grid.Row="0"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 32"
+                BackgroundColor="{StaticResource Sand}"
+                Margin="0,0,0,16">
+            <Grid>
+                <Image Source="{Binding CurrentSlide.Image}"
+                       Aspect="AspectFill"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="FillAndExpand" />
+
+                <!-- Skip Button -->
+                <Button Text="Passer"
+                        Command="{Binding SkipCommand}"
+                        IsVisible="{Binding IsLastSlide, Converter={StaticResource InverseBoolConverter}}"
+                        BackgroundColor="#D9EDEDE9"
+                        TextColor="{StaticResource Ink}"
+                        FontFamily="OpenSansSemibold"
+                        FontSize="13"
+                        CornerRadius="18"
+                        HeightRequest="36"
+                        Padding="16,0"
+                        HorizontalOptions="End"
+                        VerticalOptions="Start"
+                        Margin="16" />
+            </Grid>
+        </Border>
+
+        <!-- Bottom Content -->
+        <VerticalStackLayout Grid.Row="1" Spacing="20" Padding="8,10">
+            <!-- Progress Indicators -->
+            <HorizontalStackLayout Spacing="6">
+                <!-- Dot 0 -->
+                <Border StrokeThickness="0"
+                        StrokeShape="RoundRectangle 3"
+                        HeightRequest="6"
+                        BackgroundColor="{StaticResource Ink}">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding CurrentIndex}" Value="0">
+                            <Setter Property="WidthRequest" Value="32" />
+                            <Setter Property="BackgroundColor" Value="{StaticResource Ink}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding CurrentIndex}" Value="1">
+                            <Setter Property="WidthRequest" Value="8" />
+                            <Setter Property="BackgroundColor" Value="{StaticResource Sand}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding CurrentIndex}" Value="2">
+                            <Setter Property="WidthRequest" Value="8" />
+                            <Setter Property="BackgroundColor" Value="{StaticResource Sand}" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                </Border>
+
+                <!-- Dot 1 -->
+                <Border StrokeThickness="0"
+                        StrokeShape="RoundRectangle 3"
+                        HeightRequest="6"
+                        BackgroundColor="{StaticResource Sand}">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding CurrentIndex}" Value="0">
+                            <Setter Property="WidthRequest" Value="8" />
+                            <Setter Property="BackgroundColor" Value="{StaticResource Sand}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding CurrentIndex}" Value="1">
+                            <Setter Property="WidthRequest" Value="32" />
+                            <Setter Property="BackgroundColor" Value="{StaticResource Ink}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding CurrentIndex}" Value="2">
+                            <Setter Property="WidthRequest" Value="8" />
+                            <Setter Property="BackgroundColor" Value="{StaticResource Sand}" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                </Border>
+
+                <!-- Dot 2 -->
+                <Border StrokeThickness="0"
+                        StrokeShape="RoundRectangle 3"
+                        HeightRequest="6"
+                        BackgroundColor="{StaticResource Sand}">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding CurrentIndex}" Value="0">
+                            <Setter Property="WidthRequest" Value="8" />
+                            <Setter Property="BackgroundColor" Value="{StaticResource Sand}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding CurrentIndex}" Value="1">
+                            <Setter Property="WidthRequest" Value="8" />
+                            <Setter Property="BackgroundColor" Value="{StaticResource Sand}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding CurrentIndex}" Value="2">
+                            <Setter Property="WidthRequest" Value="32" />
+                            <Setter Property="BackgroundColor" Value="{StaticResource Ink}" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                </Border>
+            </HorizontalStackLayout>
+
+            <!-- Text Content -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="{Binding CurrentSlide.Title}"
+                       Style="{StaticResource DisplayTitle}"
+                       FontSize="32" />
+                <Label Text="{Binding CurrentSlide.Description}"
+                       Style="{StaticResource BodyMuted}"
+                       FontSize="15"
+                       LineHeight="1.3" />
+            </VerticalStackLayout>
+
+            <!-- Action Button -->
+            <Button Command="{Binding NextCommand}"
+                    Style="{StaticResource PrimaryBtn}"
+                    HorizontalOptions="FillAndExpand">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding IsLastSlide}" Value="True">
+                        <Setter Property="Text" Value="Commencer" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding IsLastSlide}" Value="False">
+                        <Setter Property="Text" Value="Suivant  →" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+        </VerticalStackLayout>
+    </Grid>
+</ContentView>

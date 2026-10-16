@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HairBook.ViewModels"
+             x:Class="HairBook.Views.ProfileView"
+             x:DataType="vm:ProfileViewModel"
+             BackgroundColor="{StaticResource Bone}">
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Spacing="24" Padding="20,16,20,32">
+                <!-- Title -->
+                <Label Text="Profil" Style="{StaticResource DisplayTitle}" FontSize="30" />
+
+                <!-- Profile Header Card -->
+                <Border Style="{StaticResource CardBorder}" Padding="16">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16" VerticalOptions="Center">
+                        <Border Grid.Column="0"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 36"
+                                WidthRequest="72"
+                                HeightRequest="72">
+                            <Image Source="{Binding User.Avatar}" Aspect="AspectFill" />
+                        </Border>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                            <Label Text="{Binding User.FullName}" FontFamily="OpenSansSemibold" FontSize="18" TextColor="{StaticResource Ink}" />
+                            <Label Text="{Binding User.Email}" FontSize="13" TextColor="{StaticResource Muted}" />
+                            <Label Text="{Binding User.Phone}" FontSize="13" TextColor="{StaticResource Muted}" />
+                        </VerticalStackLayout>
+
+                        <Button Grid.Column="2"
+                                Text="Modifier"
+                                Command="{Binding OpenEditProfileCommand}"
+                                Style="{StaticResource SoftBtn}"
+                                HeightRequest="36"
+                                Padding="12,0"
+                                FontSize="12"
+                                VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <!-- Switch to Pro Card -->
+                <Border Style="{StaticResource DarkCardBorder}" Padding="16">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16" VerticalOptions="Center">
+                        <Border StrokeShape="RoundRectangle 12" BackgroundColor="{StaticResource Accent}" WidthRequest="44" HeightRequest="44" StrokeThickness="0">
+                            <Label Text="&#xe14e;" FontFamily="Lucide" FontSize="20" TextColor="{StaticResource Ink}" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                            <Label Text="Espace Coiffeur Pro" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource Cream}" />
+                            <Label Text="Gérer mon salon, planning et prestations" FontSize="12" TextColor="{StaticResource Linen}" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="2"
+                                Text="Accéder"
+                                Command="{Binding SwitchToProCommand}"
+                                Style="{StaticResource SoftBtn}"
+                                HeightRequest="36"
+                                Padding="12,0"
+                                FontSize="12"
+                                VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <!-- Mon compte Group -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Mon compte" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Muted}" Margin="4,0" />
+                    <Border Style="{StaticResource CardBorder}" Padding="0">
+                        <VerticalStackLayout Spacing="0">
+                            <!-- Info Personnelle -->
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Padding="16,14">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenEditProfileCommand}" />
+                                </Grid.GestureRecognizers>
+                                <Label Grid.Column="0" Text="&#xe19f;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="Informations personnelles" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="&#xe06f;" FontFamily="Lucide" FontSize="16" TextColor="{StaticResource Muted}" VerticalOptions="Center" />
+                            </Grid>
+                            <BoxView HeightRequest="1" Color="{StaticResource Linen}" />
+
+                            <!-- Modifier Profil -->
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Padding="16,14">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenEditProfileCommand}" />
+                                </Grid.GestureRecognizers>
+                                <Label Grid.Column="0" Text="&#xe172;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="Modifier mon profil" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="&#xe06f;" FontFamily="Lucide" FontSize="16" TextColor="{StaticResource Muted}" VerticalOptions="Center" />
+                            </Grid>
+                            <BoxView HeightRequest="1" Color="{StaticResource Linen}" />
+
+                            <!-- Mot de passe -->
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Padding="16,14">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenPasswordSheetCommand}" />
+                                </Grid.GestureRecognizers>
+                                <Label Grid.Column="0" Text="&#xe158;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="Modifier mon mot de passe" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="&#xe06f;" FontFamily="Lucide" FontSize="16" TextColor="{StaticResource Muted}" VerticalOptions="Center" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Mes préférences Group -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Mes préférences" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Muted}" Margin="4,0" />
+                    <Border Style="{StaticResource CardBorder}" Padding="0">
+                        <VerticalStackLayout Spacing="0">
+                            <!-- Notifications Toggle -->
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Padding="16,10">
+                                <Label Grid.Column="0" Text="&#xe059;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="Notifications" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Switch Grid.Column="2" IsToggled="{Binding NotificationsEnabled}" OnColor="{StaticResource Ink}" ThumbColor="{StaticResource Bone}" VerticalOptions="Center" />
+                            </Grid>
+                            <BoxView HeightRequest="1" Color="{StaticResource Linen}" />
+
+                            <!-- Rappels Toggle -->
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Padding="16,10">
+                                <Label Grid.Column="0" Text="&#xe087;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="Rappels" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Switch Grid.Column="2" IsToggled="{Binding RemindersEnabled}" OnColor="{StaticResource Ink}" ThumbColor="{StaticResource Bone}" VerticalOptions="Center" />
+                            </Grid>
+                            <BoxView HeightRequest="1" Color="{StaticResource Linen}" />
+
+                            <!-- Langue -->
+                            <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="12" Padding="16,14">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenLanguageSheetCommand}" />
+                                </Grid.GestureRecognizers>
+                                <Label Grid.Column="0" Text="&#xe09b;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="Langue" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="{Binding SelectedLanguage}" FontSize="13" TextColor="{StaticResource Muted}" VerticalOptions="Center" />
+                                <Label Grid.Column="3" Text="&#xe06f;" FontFamily="Lucide" FontSize="16" TextColor="{StaticResource Muted}" VerticalOptions="Center" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Autres Group -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Autres" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Muted}" Margin="4,0" />
+                    <Border Style="{StaticResource CardBorder}" Padding="0">
+                        <VerticalStackLayout Spacing="0">
+                            <!-- Aide -->
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Padding="16,14">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ShowInfoCommand}" CommandParameter="Centre d'aide bientôt disponible" />
+                                </Grid.GestureRecognizers>
+                                <Label Grid.Column="0" Text="&#xe04f;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="Aide &amp; Support" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="&#xe06f;" FontFamily="Lucide" FontSize="16" TextColor="{StaticResource Muted}" VerticalOptions="Center" />
+                            </Grid>
+                            <BoxView HeightRequest="1" Color="{StaticResource Linen}" />
+
+                            <!-- États de l'application -->
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Padding="16,14">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenAppStatesCommand}" />
+                                </Grid.GestureRecognizers>
+                                <Label Grid.Column="0" Text="&#xe162;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="États de l’interface" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="&#xe06f;" FontFamily="Lucide" FontSize="16" TextColor="{StaticResource Muted}" VerticalOptions="Center" />
+                            </Grid>
+                            <BoxView HeightRequest="1" Color="{StaticResource Linen}" />
+
+                            <!-- Déconnexion -->
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" Padding="16,14">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenLogoutModalCommand}" />
+                                </Grid.GestureRecognizers>
+                                <Label Grid.Column="0" Text="&#xe10e;" FontFamily="Lucide" FontSize="18" TextColor="#B91C1C" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="Déconnexion" FontFamily="OpenSansSemibold" FontSize="14" TextColor="#B91C1C" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="&#xe06f;" FontFamily="Lucide" FontSize="16" TextColor="{StaticResource Muted}" VerticalOptions="Center" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <Label Text="HairBook · version 1.0.0" Style="{StaticResource CaptionSubtle}" HorizontalTextAlignment="Center" Margin="0,10,0,0" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Language Sheet Modal -->
+        <Grid BackgroundColor="#66000000"
+              IsVisible="{Binding IsLanguageSheetOpen}"
+              Padding="16"
+              VerticalOptions="FillAndExpand"
+              HorizontalOptions="FillAndExpand">
+            <Border StrokeThickness="0"
+                    StrokeShape="RoundRectangle 28"
+                    BackgroundColor="{StaticResource Bone}"
+                    VerticalOptions="End"
+                    Padding="24"
+                    MaximumWidthRequest="400"
+                    HorizontalOptions="FillAndExpand">
+                <VerticalStackLayout Spacing="16">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Grid.Column="0" Text="Langue" Style="{StaticResource DisplayTitle}" FontSize="22" />
+                        <Button Grid.Column="1" Text="&#xe1b2;" FontFamily="Lucide" Command="{Binding CloseModalsCommand}" BackgroundColor="{StaticResource Transparent}" TextColor="{StaticResource Ink}" FontSize="18" Padding="0" />
+                    </Grid>
+
+                    <Button Text="Français" Command="{Binding SelectLanguageCommand}" CommandParameter="Français" Style="{StaticResource SoftBtn}" HeightRequest="48" HorizontalOptions="FillAndExpand" />
+                    <Button Text="English" Command="{Binding SelectLanguageCommand}" CommandParameter="English" Style="{StaticResource OutlineBtn}" HeightRequest="48" HorizontalOptions="FillAndExpand" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <!-- Logout Modal -->
+        <Grid BackgroundColor="#66000000"
+              IsVisible="{Binding IsLogoutModalOpen}"
+              Padding="24"
+              VerticalOptions="FillAndExpand"
+              HorizontalOptions="FillAndExpand">
+            <Border StrokeThickness="0"
+                    StrokeShape="RoundRectangle 28"
+                    BackgroundColor="{StaticResource Bone}"
+                    VerticalOptions="Center"
+                    Padding="24"
+                    MaximumWidthRequest="380">
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Se déconnecter ?" Style="{StaticResource DisplayTitle}" FontSize="22" />
+                    <Label Text="Vous devrez vous reconnecter pour gérer et réserver vos rendez-vous." Style="{StaticResource BodyMuted}" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Text="Annuler" Command="{Binding CloseModalsCommand}" Style="{StaticResource SoftBtn}" />
+                        <Button Grid.Column="1" Text="Déconnexion" Command="{Binding ConfirmLogoutCommand}" BackgroundColor="#B91C1C" TextColor="{StaticResource White}" CornerRadius="14" HeightRequest="40" FontFamily="OpenSansSemibold" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentView>

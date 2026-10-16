@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HairBook.ViewModels"
+             xmlns:models="clr-namespace:HairBook.Models"
+             x:Class="HairBook.Views.AppointmentsView"
+             x:DataType="vm:AppointmentsViewModel"
+             BackgroundColor="{StaticResource Bone}">
+
+    <Grid RowDefinitions="Auto,*" Padding="20,16,20,0">
+        <!-- Header & Segmented Tabs -->
+        <VerticalStackLayout Grid.Row="0" Spacing="16" Margin="0,0,0,16">
+            <Label Text="Mes rendez-vous" Style="{StaticResource DisplayTitle}" FontSize="30" />
+
+            <Border Stroke="{StaticResource Linen}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 16"
+                    BackgroundColor="{StaticResource Cream}"
+                    Padding="4">
+                <Grid ColumnDefinitions="*,*,*">
+                    <Button Grid.Column="0" Text="À venir" Command="{Binding SetTabCommand}" CommandParameter="upcoming"
+                            BackgroundColor="{StaticResource Transparent}" TextColor="{StaticResource Muted}"
+                            HeightRequest="40" CornerRadius="12" FontFamily="OpenSansSemibold" FontSize="13">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" Binding="{Binding ActiveTab}" Value="upcoming">
+                                <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                                <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+
+                    <Button Grid.Column="1" Text="En attente" Command="{Binding SetTabCommand}" CommandParameter="pending"
+                            BackgroundColor="{StaticResource Transparent}" TextColor="{StaticResource Muted}"
+                            HeightRequest="40" CornerRadius="12" FontFamily="OpenSansSemibold" FontSize="13">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" Binding="{Binding ActiveTab}" Value="pending">
+                                <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                                <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+
+                    <Button Grid.Column="2" Text="Terminés" Command="{Binding SetTabCommand}" CommandParameter="past"
+                            BackgroundColor="{StaticResource Transparent}" TextColor="{StaticResource Muted}"
+                            HeightRequest="40" CornerRadius="12" FontFamily="OpenSansSemibold" FontSize="13">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" Binding="{Binding ActiveTab}" Value="past">
+                                <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                                <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </Grid>
+            </Border>
+        </VerticalStackLayout>
+
+        <!-- Appointments List -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="14" Padding="0,0,0,32">
+                <!-- Empty State -->
+                <Border Style="{StaticResource CardBorder}"
+                        IsVisible="False"
+                        Padding="24"
+                        Margin="0,16,0,0">
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding FilteredAppointments.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                        <Label Text="&#xe063;" FontFamily="Lucide" FontSize="36" TextColor="{StaticResource Subtle}" HorizontalOptions="Center" />
+                        <Label Text="Aucun rendez-vous" Style="{StaticResource DisplayTitle}" FontSize="22" HorizontalTextAlignment="Center" />
+                        <Label Text="Vous n’avez aucun rendez-vous dans cet onglet." Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
+                        <Button Text="Trouver un barber" Command="{Binding ExploreBarbersCommand}" Style="{StaticResource SoftBtn}" HorizontalOptions="Center" Margin="0,8,0,0" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Cards List -->
+                <VerticalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding FilteredAppointments}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:Appointment">
+                            <Border Style="{StaticResource CardBorder}" Padding="16">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AppointmentsViewModel}}, Path=SelectAppointmentCommand}"
+                                                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                <VerticalStackLayout Spacing="12">
+                                    <!-- Barber Header + Status Pill -->
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" VerticalOptions="Center">
+                                        <Border Grid.Column="0" StrokeThickness="0" StrokeShape="RoundRectangle 16" WidthRequest="44" HeightRequest="44">
+                                            <Image Source="{Binding BarberAvatar}" Aspect="AspectFill" />
+                                        </Border>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                            <Label Text="{Binding BarberName}" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource Ink}" />
+                                            <Label Text="{Binding BarberSpecialty}" FontSize="12" TextColor="{StaticResource Muted}" />
+                                        </VerticalStackLayout>
+
+                                        <Border Grid.Column="2"
+                                                StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 12"
+                                                BackgroundColor="{Binding Status, Converter={StaticResource StatusToBgColorConverter}}"
+                                                Padding="10,4"
+                                                VerticalOptions="Center">
+                                            <Label Text="{Binding Status, Converter={StaticResource StatusToTextConverter}}"
+                                                   TextColor="{Binding Status, Converter={StaticResource StatusToTextColorConverter}}"
+                                                   FontFamily="OpenSansSemibold"
+                                                   FontSize="12" />
+                                        </Border>
+                                    </Grid>
+
+                                    <BoxView HeightRequest="1" Color="{StaticResource Linen}" />
+
+                                    <!-- Service & Price -->
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Grid.Column="0" Text="{Binding ServiceName}" FontFamily="OpenSansSemibold" FontSize="16" TextColor="{StaticResource Ink}" />
+                                        <Label Grid.Column="1" Text="{Binding FormattedPrice}" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource Ink}" />
+                                    </Grid>
+
+                                    <!-- Date & Time Badges -->
+                                    <HorizontalStackLayout Spacing="8">
+                                        <Border StrokeThickness="0" StrokeShape="RoundRectangle 12" BackgroundColor="{StaticResource Bone}" Padding="10,4">
+                                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                                <Label Text="&#xe063;" FontFamily="Lucide" FontSize="12" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                                <Label Text="{Binding DateLabel}" FontFamily="OpenSansSemibold" FontSize="12" TextColor="{StaticResource Ink}" />
+                                            </HorizontalStackLayout>
+                                        </Border>
+
+                                        <Border StrokeThickness="0" StrokeShape="RoundRectangle 12" BackgroundColor="{StaticResource Bone}" Padding="10,4">
+                                            <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                                <Label Text="&#xe087;" FontFamily="Lucide" FontSize="12" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                                <Label Text="{Binding Time}" FontFamily="OpenSansSemibold" FontSize="12" TextColor="{StaticResource Ink}" />
+                                            </HorizontalStackLayout>
+                                        </Border>
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentView>

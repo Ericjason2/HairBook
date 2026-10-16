@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HairBook.ViewModels"
+             x:Class="HairBook.Views.ProProfileFormView"
+             x:DataType="vm:ProProfileFormViewModel"
+             BackgroundColor="{StaticResource Bone}">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Header -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*" Padding="20,16">
+            <Button Grid.Column="0"
+                    Text="&#xe048;"
+                    FontFamily="Lucide"
+                    Command="{Binding GoBackCommand}"
+                    BackgroundColor="{StaticResource Transparent}"
+                    TextColor="{StaticResource Ink}"
+                    FontSize="18"
+                    HorizontalOptions="Start"
+                    Padding="0"
+                    WidthRequest="36"
+                    HeightRequest="36" />
+            <Label Grid.Column="1"
+                   Text="Profil professionnel"
+                   FontFamily="OpenSansSemibold"
+                   FontSize="18"
+                   TextColor="{StaticResource Ink}"
+                   HorizontalOptions="Center"
+                   Margin="-36,0,0,0"
+                   VerticalOptions="Center" />
+        </Grid>
+
+        <!-- Form Scrollable -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="20" Padding="20,8,20,24">
+                <!-- Avatar & Note -->
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16" VerticalOptions="Center">
+                    <Grid Grid.Column="0" WidthRequest="90" HeightRequest="90">
+                        <Border StrokeThickness="0" StrokeShape="RoundRectangle 24" WidthRequest="90" HeightRequest="90">
+                            <Image Source="barber_chris.jpg" Aspect="AspectFill" />
+                        </Border>
+                        <Border Stroke="{StaticResource Bone}"
+                                StrokeThickness="3"
+                                StrokeShape="RoundRectangle 16"
+                                BackgroundColor="{StaticResource Accent}"
+                                WidthRequest="34"
+                                HeightRequest="34"
+                                HorizontalOptions="End"
+                                VerticalOptions="End">
+                            <Label Text="&#xe064;" FontFamily="Lucide" FontSize="14" TextColor="{StaticResource Ink}" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                    </Grid>
+                    <Label Grid.Column="1" Text="Une photo nette de vous ou de votre salon inspire confiance." Style="{StaticResource CaptionSubtle}" VerticalOptions="Center" LineHeight="1.3" />
+                </Grid>
+
+                <!-- Inputs -->
+                <VerticalStackLayout Spacing="14">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Nom du barber" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                        <Border Style="{StaticResource SearchBoxBorder}">
+                            <Entry Text="{Binding Name}" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Description" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                        <Border Style="{StaticResource CardBorder}" Padding="12">
+                            <Editor Text="{Binding Bio}" HeightRequest="70" TextColor="{StaticResource Ink}" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Téléphone" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                        <Border Style="{StaticResource SearchBoxBorder}">
+                            <Entry Text="{Binding Phone}" Keyboard="Telephone" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Adresse" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                        <Border Style="{StaticResource SearchBoxBorder}">
+                            <Entry Text="{Binding Address}" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Ville" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                        <Border Style="{StaticResource SearchBoxBorder}">
+                            <Entry Text="{Binding City}" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Specialties Chips -->
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Spécialités" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                        <FlexLayout BindableLayout.ItemsSource="{Binding SpecialtiesList}" Wrap="Wrap">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <Button Text="{Binding .}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProProfileFormViewModel}}, Path=ToggleSpecialtyCommand}"
+                                            CommandParameter="{Binding .}"
+                                            CornerRadius="16"
+                                            HeightRequest="36"
+                                            Padding="14,0"
+                                            FontFamily="OpenSansSemibold"
+                                            FontSize="12"
+                                            Margin="0,0,8,8"
+                                            BackgroundColor="{StaticResource Cream}"
+                                            TextColor="{StaticResource Ink}" />
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                    </VerticalStackLayout>
+
+                    <!-- Experience Counter -->
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Années d’expérience" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                        <Border Style="{StaticResource CardBorder}" Padding="8">
+                            <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                                <Button Grid.Column="0" Text="-" Command="{Binding DecreaseExpCommand}" BackgroundColor="{StaticResource Bone}" TextColor="{StaticResource Ink}" FontSize="20" WidthRequest="44" HeightRequest="44" CornerRadius="12" />
+                                <Label Grid.Column="1" Text="{Binding Experience, StringFormat='{0} ans'}" FontFamily="OpenSansSemibold" FontSize="16" TextColor="{StaticResource Ink}" HorizontalTextAlignment="Center" VerticalOptions="Center" />
+                                <Button Grid.Column="2" Text="+" Command="{Binding IncreaseExpCommand}" BackgroundColor="{StaticResource Bone}" TextColor="{StaticResource Ink}" FontSize="20" WidthRequest="44" HeightRequest="44" CornerRadius="12" />
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Sticky Footer -->
+        <Border Grid.Row="2"
+                Stroke="{StaticResource Linen}"
+                StrokeThickness="1"
+                StrokeShape="Rectangle"
+                BackgroundColor="{StaticResource Bone}"
+                Padding="20,12,20,20">
+            <Button Text="Enregistrer"
+                    Command="{Binding SaveCommand}"
+                    Style="{StaticResource PrimaryBtn}" />
+        </Border>
+    </Grid>
+</ContentView>

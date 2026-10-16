@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HairBook.ViewModels"
+             x:Class="HairBook.Views.BookingSuccessView"
+             x:DataType="vm:BookingSuccessViewModel"
+             BackgroundColor="{StaticResource Bone}">
+
+    <Grid RowDefinitions="*,Auto" Padding="24,32,24,24">
+        <!-- Center Success Emblem & Summary -->
+        <VerticalStackLayout Grid.Row="0"
+                             VerticalOptions="Center"
+                             Spacing="20"
+                             HorizontalOptions="Center"
+                             MaximumWidthRequest="380">
+            <!-- Big Checkmark Circle -->
+            <Border StrokeThickness="0"
+                    StrokeShape="RoundRectangle 56"
+                    BackgroundColor="{StaticResource Accent}"
+                    WidthRequest="112"
+                    HeightRequest="112"
+                    HorizontalOptions="Center">
+                <Label Text="&#xe06c;"
+                       FontFamily="Lucide"
+                       FontSize="44"
+                       TextColor="{StaticResource Ink}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+            </Border>
+
+            <!-- Titles -->
+            <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                <Label Text="Rendez-vous confirmé !"
+                       Style="{StaticResource DisplayTitle}"
+                       FontSize="32"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="{Binding Appointment.BarberName, StringFormat='Votre rendez-vous avec {0} est confirmé.'}"
+                       Style="{StaticResource BodyMuted}"
+                       FontSize="15"
+                       HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+
+            <!-- 2x2 Grid Summary -->
+            <Border Style="{StaticResource CardBorder}" Padding="0" Margin="0,16,0,0">
+                <Grid RowDefinitions="*,*" ColumnDefinitions="*,*">
+                    <!-- Date -->
+                    <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="2" Padding="16,14">
+                        <Label Text="Date" Style="{StaticResource CaptionSubtle}" />
+                        <Label Text="{Binding Appointment.DateLabel}" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" />
+                    </VerticalStackLayout>
+                    <BoxView Grid.Row="0" Grid.Column="0" HorizontalOptions="End" WidthRequest="1" Color="{StaticResource Linen}" />
+
+                    <!-- Heure -->
+                    <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="2" Padding="16,14">
+                        <Label Text="Heure" Style="{StaticResource CaptionSubtle}" />
+                        <Label Text="{Binding Appointment.Time}" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" />
+                    </VerticalStackLayout>
+
+                    <BoxView Grid.Row="0" Grid.ColumnSpan="2" VerticalOptions="End" HeightRequest="1" Color="{StaticResource Linen}" />
+
+                    <!-- Prestation -->
+                    <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="2" Padding="16,14">
+                        <Label Text="Prestation" Style="{StaticResource CaptionSubtle}" />
+                        <Label Text="{Binding Appointment.ServiceName}" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" />
+                    </VerticalStackLayout>
+                    <BoxView Grid.Row="1" Grid.Column="0" HorizontalOptions="End" WidthRequest="1" Color="{StaticResource Linen}" />
+
+                    <!-- Prix -->
+                    <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="2" Padding="16,14">
+                        <Label Text="Prix" Style="{StaticResource CaptionSubtle}" />
+                        <Label Text="{Binding Appointment.FormattedPrice}" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </VerticalStackLayout>
+
+        <!-- Bottom Action Buttons -->
+        <VerticalStackLayout Grid.Row="1" Spacing="10">
+            <Button Text="Voir mon rendez-vous"
+                    Command="{Binding ViewAppointmentCommand}"
+                    Style="{StaticResource PrimaryBtn}" />
+            <Button Text="Retour à l’accueil"
+                    Command="{Binding GoHomeCommand}"
+                    BackgroundColor="{StaticResource Transparent}"
+                    TextColor="{StaticResource Ink}"
+                    FontFamily="OpenSansSemibold"
+                    FontSize="15"
+                    HeightRequest="48" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentView>

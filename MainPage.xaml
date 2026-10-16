@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HairBook.ViewModels"
+             xmlns:views="clr-namespace:HairBook.Views"
+             x:Class="HairBook.MainPage"
+             x:DataType="vm:MainViewModel"
+             BackgroundColor="{StaticResource Bone}">
+
+    <Grid>
+        <!-- Layer 0: Main Screen Layout with Viewport + Bottom Bar -->
+        <Grid RowDefinitions="*,Auto">
+
+            <!-- Screens Container (Row 0) -->
+            <Grid Grid.Row="0">
+
+                <!-- 1. AUTH FLOW SCREENS -->
+                <Grid IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Splash}">
+                    <views:SplashView />
+                </Grid>
+                
+                <Grid IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Onboarding}">
+                    <views:OnboardingView BindingContext="{Binding OnboardingVM}" />
+                </Grid>
+                
+                <Grid IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Login}">
+                    <views:LoginView BindingContext="{Binding LoginVM}" />
+                </Grid>
+                
+                <Grid IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Register}">
+                    <views:RegisterView BindingContext="{Binding RegisterVM}" />
+                </Grid>
+
+                <!-- 2. CLIENT MAIN SCREEN TABS -->
+                <Grid IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=MainClient}">
+                    <Grid IsVisible="{Binding ActiveClientTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Home}">
+                        <views:HomeView BindingContext="{Binding HomeVM}" />
+                    </Grid>
+
+                    <Grid IsVisible="{Binding ActiveClientTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Explore}">
+                        <views:ExploreView BindingContext="{Binding ExploreVM}" />
+                    </Grid>
+
+                    <Grid IsVisible="{Binding ActiveClientTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Appointments}">
+                        <views:AppointmentsView BindingContext="{Binding AppointmentsVM}" />
+                    </Grid>
+
+                    <Grid IsVisible="{Binding ActiveClientTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Favorites}">
+                        <views:FavoritesView BindingContext="{Binding FavoritesVM}" />
+                    </Grid>
+
+                    <Grid IsVisible="{Binding ActiveClientTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Profile}">
+                        <views:ProfileView BindingContext="{Binding ProfileVM}" />
+                    </Grid>
+                </Grid>
+
+                <!-- 3. CLIENT DETAIL / SUB SCREENS -->
+                <Grid IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=StyleDetail}">
+                    <views:StyleDetailView BindingContext="{Binding StyleDetailVM}" />
+                </Grid>
+
+                <Grid IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=BarberProfile}">
+                    <views:BarberProfileView BindingContext="{Binding BarberProfileVM}" />
+                </Grid>
+
+                <Grid IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Booking}">
+                    <views:BookingView BindingContext="{Binding BookingVM}" />
+                </Grid>
+
+                <Grid IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=BookingSuccess}">
+                    <views:BookingSuccessView BindingContext="{Binding BookingSuccessVM}" />
+                </Grid>
+
+                <Grid IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=AppointmentDetail}">
+                    <views:AppointmentDetailView BindingContext="{Binding AppointmentDetailVM}" />
+                </Grid>
+
+                <Grid IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Notifications}">
+                    <views:NotificationsView BindingContext="{Binding NotificationsVM}" />
+                </Grid>
+
+                <Grid IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=EditProfile}">
+                    <views:EditProfileView BindingContext="{Binding EditProfileVM}" />
+                </Grid>
+
+                <Grid IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=AppStates}">
+                    <views:AppStatesView BindingContext="{Binding AppStatesVM}" />
+                </Grid>
+
+                <!-- 4. PRO MAIN SCREEN TABS -->
+                <Grid IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=MainPro}">
+                    <Grid IsVisible="{Binding ActiveProTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Dashboard}">
+                        <views:ProDashboardView BindingContext="{Binding ProDashboardVM}" />
+                    </Grid>
+
+                    <Grid IsVisible="{Binding ActiveProTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Planning}">
+                        <views:ProPlanningView BindingContext="{Binding ProPlanningVM}" />
+                    </Grid>
+
+                    <Grid IsVisible="{Binding ActiveProTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Services}">
+                        <views:ProServicesView BindingContext="{Binding ProServicesVM}" />
+                    </Grid>
+
+                    <Grid IsVisible="{Binding ActiveProTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Portfolio}">
+                        <views:ProPortfolioView BindingContext="{Binding ProPortfolioVM}" />
+                    </Grid>
+
+                    <Grid IsVisible="{Binding ActiveProTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Account}">
+                        <views:ProAccountView BindingContext="{Binding ProAccountVM}" />
+                    </Grid>
+                </Grid>
+
+                <!-- 5. PRO DETAIL / SUB SCREENS -->
+                <Grid IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=ProHours}">
+                    <views:ProHoursView BindingContext="{Binding ProHoursVM}" />
+                </Grid>
+
+                <Grid IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=ProProfileForm}">
+                    <views:ProProfileFormView BindingContext="{Binding ProProfileFormVM}" />
+                </Grid>
+
+            </Grid>
+
+            <!-- Bottom Navigation Bar (Row 1) -->
+            <!-- Client Bottom Nav -->
+            <Border Grid.Row="1"
+                    StrokeThickness="1"
+                    Stroke="{StaticResource Linen}"
+                    BackgroundColor="{StaticResource Bone}"
+                    Padding="6,8,6,12"
+                    IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=MainClient}">
+                <Grid ColumnDefinitions="*,*,*,*,*">
+
+                    <!-- Tab 1: Accueil -->
+                    <VerticalStackLayout Grid.Column="0" Spacing="2" HorizontalOptions="Center">
+                        <VerticalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SetClientTabCommand}" CommandParameter="Home" />
+                        </VerticalStackLayout.GestureRecognizers>
+                        <Border WidthRequest="52" HeightRequest="30"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 15"
+                                BackgroundColor="{Binding ActiveClientTab, Converter={StaticResource StringEqualsToPillBgConverter}, ConverterParameter=Home}">
+                            <Label Text="&#xe0f5;"
+                                   FontFamily="Lucide"
+                                   FontSize="18"
+                                   TextColor="{Binding ActiveClientTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Home}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="Accueil"
+                               FontSize="11"
+                               FontFamily="OpenSansBold"
+                               TextColor="{Binding ActiveClientTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Home}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <!-- Tab 2: Explorer -->
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" HorizontalOptions="Center">
+                        <VerticalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SetClientTabCommand}" CommandParameter="Explore" />
+                        </VerticalStackLayout.GestureRecognizers>
+                        <Border WidthRequest="52" HeightRequest="30"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 15"
+                                BackgroundColor="{Binding ActiveClientTab, Converter={StaticResource StringEqualsToPillBgConverter}, ConverterParameter=Explore}">
+                            <Label Text="&#xe09b;"
+                                   FontFamily="Lucide"
+                                   FontSize="18"
+                                   TextColor="{Binding ActiveClientTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Explore}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="Explorer"
+                               FontSize="11"
+                               FontFamily="OpenSansBold"
+                               TextColor="{Binding ActiveClientTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Explore}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <!-- Tab 3: Rendez-vous -->
+                    <VerticalStackLayout Grid.Column="2" Spacing="2" HorizontalOptions="Center">
+                        <VerticalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SetClientTabCommand}" CommandParameter="Appointments" />
+                        </VerticalStackLayout.GestureRecognizers>
+                        <Border WidthRequest="52" HeightRequest="30"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 15"
+                                BackgroundColor="{Binding ActiveClientTab, Converter={StaticResource StringEqualsToPillBgConverter}, ConverterParameter=Appointments}">
+                            <Label Text="&#xe063;"
+                                   FontFamily="Lucide"
+                                   FontSize="18"
+                                   TextColor="{Binding ActiveClientTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Appointments}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="Rendez-vous"
+                               FontSize="11"
+                               FontFamily="OpenSansBold"
+                               TextColor="{Binding ActiveClientTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Appointments}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <!-- Tab 4: Favoris -->
+                    <VerticalStackLayout Grid.Column="3" Spacing="2" HorizontalOptions="Center">
+                        <VerticalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SetClientTabCommand}" CommandParameter="Favorites" />
+                        </VerticalStackLayout.GestureRecognizers>
+                        <Border WidthRequest="52" HeightRequest="30"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 15"
+                                BackgroundColor="{Binding ActiveClientTab, Converter={StaticResource StringEqualsToPillBgConverter}, ConverterParameter=Favorites}">
+                            <Label Text="&#xe0f2;"
+                                   FontFamily="Lucide"
+                                   FontSize="18"
+                                   TextColor="{Binding ActiveClientTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Favorites}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="Favoris"
+                               FontSize="11"
+                               FontFamily="OpenSansBold"
+                               TextColor="{Binding ActiveClientTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Favorites}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <!-- Tab 5: Profil -->
+                    <VerticalStackLayout Grid.Column="4" Spacing="2" HorizontalOptions="Center">
+                        <VerticalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SetClientTabCommand}" CommandParameter="Profile" />
+                        </VerticalStackLayout.GestureRecognizers>
+                        <Border WidthRequest="52" HeightRequest="30"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 15"
+                                BackgroundColor="{Binding ActiveClientTab, Converter={StaticResource StringEqualsToPillBgConverter}, ConverterParameter=Profile}">
+                            <Label Text="&#xe19f;"
+                                   FontFamily="Lucide"
+                                   FontSize="18"
+                                   TextColor="{Binding ActiveClientTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Profile}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="Profil"
+                               FontSize="11"
+                               FontFamily="OpenSansBold"
+                               TextColor="{Binding ActiveClientTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Profile}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- Pro Bottom Nav -->
+            <Border Grid.Row="1"
+                    StrokeThickness="1"
+                    Stroke="{StaticResource Linen}"
+                    BackgroundColor="{StaticResource Bone}"
+                    Padding="6,8,6,12"
+                    IsVisible="{Binding CurrentScreen, Converter={StaticResource StringEqualsConverter}, ConverterParameter=MainPro}">
+                <Grid ColumnDefinitions="*,*,*,*,*">
+
+                    <!-- Tab 1: Accueil Pro -->
+                    <VerticalStackLayout Grid.Column="0" Spacing="2" HorizontalOptions="Center">
+                        <VerticalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SetProTabCommand}" CommandParameter="Dashboard" />
+                        </VerticalStackLayout.GestureRecognizers>
+                        <Border WidthRequest="52" HeightRequest="30"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 15"
+                                BackgroundColor="{Binding ActiveProTab, Converter={StaticResource StringEqualsToPillBgConverter}, ConverterParameter=Dashboard}">
+                            <Label Text="&#xe0f5;"
+                                   FontFamily="Lucide"
+                                   FontSize="18"
+                                   TextColor="{Binding ActiveProTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Dashboard}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="Accueil"
+                               FontSize="11"
+                               FontFamily="OpenSansBold"
+                               TextColor="{Binding ActiveProTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Dashboard}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <!-- Tab 2: Planning -->
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" HorizontalOptions="Center">
+                        <VerticalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SetProTabCommand}" CommandParameter="Planning" />
+                        </VerticalStackLayout.GestureRecognizers>
+                        <Border WidthRequest="52" HeightRequest="30"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 15"
+                                BackgroundColor="{Binding ActiveProTab, Converter={StaticResource StringEqualsToPillBgConverter}, ConverterParameter=Planning}">
+                            <Label Text="&#xe063;"
+                                   FontFamily="Lucide"
+                                   FontSize="18"
+                                   TextColor="{Binding ActiveProTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Planning}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="Planning"
+                               FontSize="11"
+                               FontFamily="OpenSansBold"
+                               TextColor="{Binding ActiveProTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Planning}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <!-- Tab 3: Prestations -->
+                    <VerticalStackLayout Grid.Column="2" Spacing="2" HorizontalOptions="Center">
+                        <VerticalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SetProTabCommand}" CommandParameter="Services" />
+                        </VerticalStackLayout.GestureRecognizers>
+                        <Border WidthRequest="52" HeightRequest="30"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 15"
+                                BackgroundColor="{Binding ActiveProTab, Converter={StaticResource StringEqualsToPillBgConverter}, ConverterParameter=Services}">
+                            <Label Text="&#xe14e;"
+                                   FontFamily="Lucide"
+                                   FontSize="18"
+                                   TextColor="{Binding ActiveProTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Services}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="Prestations"
+                               FontSize="11"
+                               FontFamily="OpenSansBold"
+                               TextColor="{Binding ActiveProTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Services}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <!-- Tab 4: Portfolio -->
+                    <VerticalStackLayout Grid.Column="3" Spacing="2" HorizontalOptions="Center">
+                        <VerticalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SetProTabCommand}" CommandParameter="Portfolio" />
+                        </VerticalStackLayout.GestureRecognizers>
+                        <Border WidthRequest="52" HeightRequest="30"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 15"
+                                BackgroundColor="{Binding ActiveProTab, Converter={StaticResource StringEqualsToPillBgConverter}, ConverterParameter=Portfolio}">
+                            <Label Text="&#xe0f6;"
+                                   FontFamily="Lucide"
+                                   FontSize="18"
+                                   TextColor="{Binding ActiveProTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Portfolio}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="Portfolio"
+                               FontSize="11"
+                               FontFamily="OpenSansBold"
+                               TextColor="{Binding ActiveProTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Portfolio}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <!-- Tab 5: Profil Pro -->
+                    <VerticalStackLayout Grid.Column="4" Spacing="2" HorizontalOptions="Center">
+                        <VerticalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SetProTabCommand}" CommandParameter="Account" />
+                        </VerticalStackLayout.GestureRecognizers>
+                        <Border WidthRequest="52" HeightRequest="30"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 15"
+                                BackgroundColor="{Binding ActiveProTab, Converter={StaticResource StringEqualsToPillBgConverter}, ConverterParameter=Account}">
+                            <Label Text="&#xe154;"
+                                   FontFamily="Lucide"
+                                   FontSize="18"
+                                   TextColor="{Binding ActiveProTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Account}"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="Compte"
+                               FontSize="11"
+                               FontFamily="OpenSansBold"
+                               TextColor="{Binding ActiveProTab, Converter={StaticResource StringEqualsToColorConverter}, ConverterParameter=Account}"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+        </Grid>
+
+        <!-- Layer 1: Floating Toast Notification Banner -->
+        <Border StrokeShape="RoundRectangle 22"
+                StrokeThickness="0"
+                BackgroundColor="{StaticResource Ink}"
+                Padding="16,10"
+                HorizontalOptions="Center"
+                VerticalOptions="Start"
+                Margin="0,36,0,0"
+                IsVisible="{Binding IsToastVisible}"
+                InputTransparent="True">
+            <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                <Label Text="&#xe06c;"
+                       FontFamily="Lucide"
+                       TextColor="{StaticResource Accent}"
+                       FontSize="14"
+                       VerticalOptions="Center" />
+                <Label Text="{Binding ToastMessage}"
+                       TextColor="{StaticResource White}"
+                       FontFamily="OpenSansSemibold"
+                       FontSize="13"
+                       VerticalOptions="Center" />
+            </HorizontalStackLayout>
+        </Border>
+
+    </Grid>
+
+</ContentPage>

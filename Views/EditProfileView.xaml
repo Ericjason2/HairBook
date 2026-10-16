@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HairBook.ViewModels"
+             x:Class="HairBook.Views.EditProfileView"
+             x:DataType="vm:EditProfileViewModel"
+             BackgroundColor="{StaticResource Bone}">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Top App Bar -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*" Padding="20,16">
+            <Button Grid.Column="0"
+                    Text="&#xe048;"
+                    FontFamily="Lucide"
+                    Command="{Binding GoBackCommand}"
+                    BackgroundColor="{StaticResource Transparent}"
+                    TextColor="{StaticResource Ink}"
+                    FontSize="18"
+                    HorizontalOptions="Start"
+                    Padding="0"
+                    WidthRequest="36"
+                    HeightRequest="36" />
+            <Label Grid.Column="1"
+                   Text="Modifier le profil"
+                   FontFamily="OpenSansSemibold"
+                   FontSize="18"
+                   TextColor="{StaticResource Ink}"
+                   HorizontalOptions="Center"
+                   Margin="-36,0,0,0"
+                   VerticalOptions="Center" />
+        </Grid>
+
+        <!-- Form Scrollable -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="24" Padding="24,10,24,24">
+                <!-- Avatar with Camera Badge -->
+                <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Grid WidthRequest="112" HeightRequest="112" HorizontalOptions="Center">
+                        <Border StrokeThickness="0" StrokeShape="RoundRectangle 56" WidthRequest="112" HeightRequest="112">
+                            <Image Source="{Binding Avatar}" Aspect="AspectFill" />
+                        </Border>
+
+                        <Border Stroke="{StaticResource Bone}"
+                                StrokeThickness="3"
+                                StrokeShape="RoundRectangle 20"
+                                BackgroundColor="{StaticResource Accent}"
+                                WidthRequest="40"
+                                HeightRequest="40"
+                                HorizontalOptions="End"
+                                VerticalOptions="End">
+                            <Label Text="&#xe064;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                    </Grid>
+
+                    <Label Text="Changer la photo"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="13"
+                           TextColor="{StaticResource Ink}"
+                           TextDecorations="Underline"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+
+                <!-- Inputs -->
+                <VerticalStackLayout Spacing="16">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Prénom" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                        <Border Style="{StaticResource SearchBoxBorder}">
+                            <Entry Text="{Binding FirstName}" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Nom" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                        <Border Style="{StaticResource SearchBoxBorder}">
+                            <Entry Text="{Binding LastName}" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Email" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                        <Border Style="{StaticResource SearchBoxBorder}">
+                            <Entry Text="{Binding Email}" Keyboard="Email" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Téléphone" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                        <Border Style="{StaticResource SearchBoxBorder}">
+                            <Entry Text="{Binding Phone}" Keyboard="Telephone" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                        </Border>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Sticky Footer -->
+        <Border Grid.Row="2"
+                Stroke="{StaticResource Linen}"
+                StrokeThickness="1"
+                StrokeShape="Rectangle"
+                BackgroundColor="{StaticResource Bone}"
+                Padding="20,12,20,20">
+            <Button Text="Enregistrer les modifications"
+                    Command="{Binding SaveCommand}"
+                    Style="{StaticResource PrimaryBtn}" />
+        </Border>
+    </Grid>
+</ContentView>

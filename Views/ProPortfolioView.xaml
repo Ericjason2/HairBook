@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HairBook.ViewModels"
+             xmlns:models="clr-namespace:HairBook.Models"
+             x:Class="HairBook.Views.ProPortfolioView"
+             x:DataType="vm:ProPortfolioViewModel"
+             BackgroundColor="{StaticResource Bone}">
+
+    <Grid>
+        <Grid RowDefinitions="Auto,*,Auto" Padding="20,16,20,0">
+            <!-- Header & Filter Chips -->
+            <VerticalStackLayout Grid.Row="0" Spacing="12" Margin="0,0,0,16">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Portfolio" Style="{StaticResource DisplayTitle}" FontSize="30" />
+                    <Label Text="{Binding FilteredItems.Count, StringFormat='{0} réalisations publiées'}" Style="{StaticResource BodyMuted}" FontSize="14" />
+                </VerticalStackLayout>
+
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    <HorizontalStackLayout Spacing="8" BindableLayout.ItemsSource="{Binding Categories}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Button Text="{Binding .}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProPortfolioViewModel}}, Path=SetFilterCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="{StaticResource Cream}"
+                                        TextColor="{StaticResource Ink}"
+                                        CornerRadius="18"
+                                        HeightRequest="36"
+                                        Padding="14,0"
+                                        FontFamily="OpenSansSemibold"
+                                        FontSize="13">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button" Binding="{Binding .}" Value="{Binding Source={RelativeSource AncestorType={x:Type vm:ProPortfolioViewModel}}, Path=SelectedFilter}">
+                                            <Setter Property="BackgroundColor" Value="{StaticResource Ink}" />
+                                            <Setter Property="TextColor" Value="{StaticResource Cream}" />
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </HorizontalStackLayout>
+                </ScrollView>
+            </VerticalStackLayout>
+
+            <!-- Portfolio Grid -->
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Spacing="14" Padding="0,0,0,24">
+                    <FlexLayout BindableLayout.ItemsSource="{Binding FilteredItems}"
+                                Wrap="Wrap"
+                                JustifyContent="SpaceBetween">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:PortfolioItem">
+                                <VerticalStackLayout Spacing="4" WidthRequest="165" Margin="0,0,0,16">
+                                    <Border StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 24"
+                                            BackgroundColor="{StaticResource Sand}"
+                                            HeightRequest="165"
+                                            WidthRequest="165">
+                                        <Grid>
+                                            <Image Source="{Binding Image}" Aspect="AspectFill" />
+
+                                            <!-- Trash Button Overlay -->
+                                            <Border StrokeThickness="0"
+                                                    StrokeShape="RoundRectangle 16"
+                                                    BackgroundColor="#CCEDEDE9"
+                                                    WidthRequest="32"
+                                                    HeightRequest="32"
+                                                    HorizontalOptions="End"
+                                                    VerticalOptions="Start"
+                                                    Margin="8">
+                                                <Border.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProPortfolioViewModel}}, Path=PromptDeleteCommand}"
+                                                                          CommandParameter="{Binding .}" />
+                                                </Border.GestureRecognizers>
+                                                <Label Text="&#xe18d;" FontFamily="Lucide" FontSize="14" TextColor="{StaticResource Ink}" HorizontalOptions="Center" VerticalOptions="Center" />
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                    <Label Text="{Binding Title}" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" />
+                                    <Label Text="{Binding Category}" FontSize="12" TextColor="{StaticResource Muted}" />
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <!-- Bottom Button -->
+            <Border Grid.Row="2"
+                    Stroke="{StaticResource Linen}"
+                    StrokeThickness="1"
+                    StrokeShape="Rectangle"
+                    BackgroundColor="{StaticResource Bone}"
+                    Padding="0,12,0,20">
+                <Button Text="Ajouter une photo"
+                        Command="{Binding OpenAddPhotoCommand}"
+                        Style="{StaticResource PrimaryBtn}" />
+            </Border>
+        </Grid>
+
+        <!-- Add Photo Sheet -->
+        <Grid BackgroundColor="#66000000"
+              IsVisible="{Binding IsAddPhotoSheetOpen}"
+              Padding="16"
+              VerticalOptions="FillAndExpand"
+              HorizontalOptions="FillAndExpand">
+            <Border StrokeThickness="0"
+                    StrokeShape="RoundRectangle 28"
+                    BackgroundColor="{StaticResource Bone}"
+                    VerticalOptions="End"
+                    Padding="24"
+                    MaximumWidthRequest="400"
+                    HorizontalOptions="FillAndExpand">
+                <VerticalStackLayout Spacing="16">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Grid.Column="0" Text="Ajouter une réalisation" Style="{StaticResource DisplayTitle}" FontSize="22" />
+                        <Button Grid.Column="1" Text="&#xe1b2;" FontFamily="Lucide" Command="{Binding CloseAddPhotoCommand}" BackgroundColor="{StaticResource Transparent}" TextColor="{StaticResource Ink}" FontSize="18" Padding="0" />
+                    </Grid>
+
+                    <VerticalStackLayout Spacing="12">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Titre de la coupe" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                            <Border Style="{StaticResource SearchBoxBorder}">
+                                <Entry Text="{Binding NewPhotoTitle}" Placeholder="ex: Burst fade twists" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Catégorie" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                            <Border Style="{StaticResource SearchBoxBorder}">
+                                <Entry Text="{Binding NewPhotoCategory}" Placeholder="Fade / Taper / Barbe..." TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                    <Button Text="Publier la photo" Command="{Binding SaveNewPhotoCommand}" Style="{StaticResource PrimaryBtn}" Margin="0,8,0,0" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <!-- Delete Modal -->
+        <Grid BackgroundColor="#66000000"
+              IsVisible="{Binding IsDeleteModalOpen}"
+              Padding="24"
+              VerticalOptions="FillAndExpand"
+              HorizontalOptions="FillAndExpand">
+            <Border StrokeThickness="0"
+                    StrokeShape="RoundRectangle 28"
+                    BackgroundColor="{StaticResource Bone}"
+                    VerticalOptions="Center"
+                    Padding="24"
+                    MaximumWidthRequest="380">
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Supprimer cette photo ?" Style="{StaticResource DisplayTitle}" FontSize="22" />
+                    <Label Text="Elle sera retirée de votre portfolio public." Style="{StaticResource BodyMuted}" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Text="Annuler" Command="{Binding CancelDeleteCommand}" Style="{StaticResource SoftBtn}" />
+                        <Button Grid.Column="1" Text="Supprimer" Command="{Binding ConfirmDeleteCommand}" BackgroundColor="#B91C1C" TextColor="{StaticResource White}" CornerRadius="14" HeightRequest="40" FontFamily="OpenSansSemibold" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentView>

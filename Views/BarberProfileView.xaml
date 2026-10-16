@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HairBook.ViewModels"
+             xmlns:models="clr-namespace:HairBook.Models"
+             x:Class="HairBook.Views.BarberProfileView"
+             x:DataType="vm:BarberProfileViewModel"
+             BackgroundColor="{StaticResource Bone}">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Top App Bar -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Padding="20,16">
+            <Border Grid.Column="0"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 20"
+                    BackgroundColor="{StaticResource Cream}"
+                    WidthRequest="40"
+                    HeightRequest="40">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoBackCommand}" />
+                </Border.GestureRecognizers>
+                <Label Text="&#xe048;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" HorizontalOptions="Center" VerticalOptions="Center" />
+            </Border>
+
+            <Border Grid.Column="2"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 20"
+                    BackgroundColor="{StaticResource Cream}"
+                    WidthRequest="40"
+                    HeightRequest="40">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ToggleFavoriteCommand}" />
+                </Border.GestureRecognizers>
+                <Label Text="{Binding Barber.IsFavorite, Converter={StaticResource BoolToHeartGlyphConverter}}"
+                       FontFamily="Lucide"
+                       TextColor="{Binding Barber.IsFavorite, Converter={StaticResource BoolToHeartColorConverter}}"
+                       FontSize="18"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+            </Border>
+        </Grid>
+
+        <!-- Main Scrollable Content -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="20" Padding="20,0,20,24">
+                <!-- Barber Profile Header -->
+                <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Border StrokeThickness="0"
+                            StrokeShape="RoundRectangle 56"
+                            WidthRequest="112"
+                            HeightRequest="112"
+                            HorizontalOptions="Center">
+                        <Image Source="{Binding Barber.Avatar}" Aspect="AspectFill" />
+                    </Border>
+
+                    <Label Text="{Binding Barber.Name}"
+                           Style="{StaticResource DisplayTitle}"
+                           FontSize="30"
+                           HorizontalTextAlignment="Center" />
+
+                    <Label Text="{Binding Barber.Specialty}"
+                           Style="{StaticResource BodyMuted}"
+                           FontSize="14"
+                           HorizontalTextAlignment="Center" />
+
+                    <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Border Style="{StaticResource AccentBadgeBorder}">
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="&#xe06c;" FontFamily="Lucide" FontSize="11" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Label Text="Barber Pro" FontFamily="OpenSansSemibold" FontSize="12" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </Border>
+
+                        <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                            <Label Text="&#xe176;" FontFamily="Lucide" TextColor="{StaticResource Ink}" FontSize="13" VerticalOptions="Center" />
+                            <Label Text="{Binding Barber.RatingFormatted}" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                            <Label Text="{Binding Barber.ReviewCount, StringFormat='· {0} avis'}" FontSize="13" TextColor="{StaticResource Muted}" />
+                        </HorizontalStackLayout>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- Stats 3 Columns Card -->
+                <Border Style="{StaticResource CardBorder}" Padding="16,14">
+                    <Grid ColumnDefinitions="*,*,*">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2" HorizontalOptions="Center">
+                            <Label Text="{Binding Barber.Clients, StringFormat='{0:N0}'}" FontFamily="OpenSansSemibold" FontSize="16" TextColor="{StaticResource Ink}" HorizontalTextAlignment="Center" />
+                            <Label Text="Clients" Style="{StaticResource CaptionSubtle}" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                        <BoxView Grid.Column="0" HorizontalOptions="End" WidthRequest="1" Color="{StaticResource Linen}" />
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" HorizontalOptions="Center">
+                            <Label Text="{Binding Barber.Experience, StringFormat='{0} ans'}" FontFamily="OpenSansSemibold" FontSize="16" TextColor="{StaticResource Ink}" HorizontalTextAlignment="Center" />
+                            <Label Text="Expérience" Style="{StaticResource CaptionSubtle}" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                        <BoxView Grid.Column="1" HorizontalOptions="End" WidthRequest="1" Color="{StaticResource Linen}" />
+
+                        <VerticalStackLayout Grid.Column="2" Spacing="2" HorizontalOptions="Center">
+                            <Label Text="{Binding Barber.Works}" FontFamily="OpenSansSemibold" FontSize="16" TextColor="{StaticResource Ink}" HorizontalTextAlignment="Center" />
+                            <Label Text="Réalisations" Style="{StaticResource CaptionSubtle}" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- Address & Hours Info -->
+                <VerticalStackLayout Spacing="8">
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="&#xe111;" FontFamily="Lucide" FontSize="14" TextColor="{StaticResource Muted}" VerticalOptions="Center" />
+                        <Label Text="{Binding Barber.Address}" FontSize="13" TextColor="{StaticResource Ink}" LineBreakMode="WordWrap" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="&#xe087;" FontFamily="Lucide" FontSize="14" TextColor="{StaticResource Muted}" VerticalOptions="Center" />
+                        <Label Text="{Binding Barber.Hours}" FontSize="13" TextColor="{StaticResource Ink}" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- Segmented Tabs: Prestations | Portfolio | Avis -->
+                <Border Stroke="{StaticResource Linen}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 16"
+                        BackgroundColor="{StaticResource Cream}"
+                        Padding="4">
+                    <Grid ColumnDefinitions="*,*,*">
+                        <Button Grid.Column="0" Text="Prestations" Command="{Binding SetTabCommand}" CommandParameter="services"
+                                BackgroundColor="{StaticResource Transparent}" TextColor="{StaticResource Muted}"
+                                HeightRequest="40" CornerRadius="12" FontFamily="OpenSansSemibold" FontSize="13">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button" Binding="{Binding ActiveTab}" Value="services">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                                    <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+
+                        <Button Grid.Column="1" Text="Portfolio" Command="{Binding SetTabCommand}" CommandParameter="portfolio"
+                                BackgroundColor="{StaticResource Transparent}" TextColor="{StaticResource Muted}"
+                                HeightRequest="40" CornerRadius="12" FontFamily="OpenSansSemibold" FontSize="13">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button" Binding="{Binding ActiveTab}" Value="portfolio">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                                    <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+
+                        <Button Grid.Column="2" Text="{Binding BarberReviews.Count, StringFormat='Avis ({0})'}" Command="{Binding SetTabCommand}" CommandParameter="reviews"
+                                BackgroundColor="{StaticResource Transparent}" TextColor="{StaticResource Muted}"
+                                HeightRequest="40" CornerRadius="12" FontFamily="OpenSansSemibold" FontSize="13">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button" Binding="{Binding ActiveTab}" Value="reviews">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                                    <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- TAB 1: Services List -->
+                <VerticalStackLayout Spacing="10" IsVisible="False">
+                    <VerticalStackLayout.Triggers>
+                        <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding ActiveTab}" Value="services">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </VerticalStackLayout.Triggers>
+
+                    <Border Style="{StaticResource CardBorder}" Padding="8">
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding BarberServices}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="models:Service">
+                                    <VerticalStackLayout Spacing="0">
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12" Padding="8,12">
+                                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                                <Label Text="{Binding Name}" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource Ink}" />
+                                                <Label Text="{Binding Description}" FontSize="12" TextColor="{StaticResource Muted}" LineBreakMode="TailTruncation" MaxLines="1" />
+                                                <HorizontalStackLayout Spacing="6" Margin="0,4,0,0">
+                                                    <Label Text="{Binding FormattedPrice}" FontFamily="OpenSansSemibold" FontSize="13" TextColor="{StaticResource Ink}" />
+                                                    <Label Text="{Binding FormattedDuration, StringFormat='· {0}'}" FontSize="12" TextColor="{StaticResource Muted}" />
+                                                </HorizontalStackLayout>
+                                            </VerticalStackLayout>
+
+                                            <Button Grid.Column="1"
+                                                    Text="Réserver"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BarberProfileViewModel}}, Path=BookServiceCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    Style="{StaticResource SoftBtn}"
+                                                    HeightRequest="36"
+                                                    Padding="14,0"
+                                                    VerticalOptions="Center" />
+                                        </Grid>
+                                        <BoxView HeightRequest="1" Color="{StaticResource Linen}" />
+                                    </VerticalStackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- TAB 2: Portfolio Grid -->
+                <VerticalStackLayout Spacing="8" IsVisible="False">
+                    <VerticalStackLayout.Triggers>
+                        <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding ActiveTab}" Value="portfolio">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </VerticalStackLayout.Triggers>
+
+                    <FlexLayout BindableLayout.ItemsSource="{Binding BarberPortfolio}"
+                                Wrap="Wrap"
+                                JustifyContent="SpaceBetween">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:PortfolioItem">
+                                <Border StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 16"
+                                        WidthRequest="106"
+                                        HeightRequest="106"
+                                        Margin="0,0,0,8">
+                                    <Image Source="{Binding Image}" Aspect="AspectFill" />
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </VerticalStackLayout>
+
+                <!-- TAB 3: Reviews -->
+                <VerticalStackLayout Spacing="16" IsVisible="False">
+                    <VerticalStackLayout.Triggers>
+                        <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding ActiveTab}" Value="reviews">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </VerticalStackLayout.Triggers>
+
+                    <!-- Score Header -->
+                    <Border Style="{StaticResource CardBorder}" Padding="16">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16" VerticalOptions="Center">
+                            <Label Grid.Column="0"
+                                   Text="{Binding Barber.RatingFormatted}"
+                                   Style="{StaticResource DisplayTitle}"
+                                   FontSize="48"
+                                   VerticalOptions="Center" />
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                <Label Text="&#xe176;&#xe176;&#xe176;&#xe176;&#xe176;" FontFamily="Lucide" TextColor="{StaticResource Ink}" FontSize="16" />
+                                <Label Text="{Binding Barber.ReviewCount, StringFormat='Basé sur {0} avis'}" Style="{StaticResource CaptionSubtle}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <!-- Reviews List -->
+                    <VerticalStackLayout Spacing="12" BindableLayout.ItemsSource="{Binding BarberReviews}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:Review">
+                                <Border Style="{StaticResource CardBorder}" Padding="16">
+                                    <VerticalStackLayout Spacing="8">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label Grid.Column="0" Text="{Binding Author}" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" />
+                                            <Label Grid.Column="1" Text="{Binding Date}" Style="{StaticResource CaptionSubtle}" />
+                                        </Grid>
+                                        <Label Text="&#xe176;&#xe176;&#xe176;&#xe176;&#xe176;" FontFamily="Lucide" TextColor="{StaticResource Ink}" FontSize="12" />
+                                        <Label Text="{Binding Comment}" FontSize="13" TextColor="{StaticResource Ink}" LineHeight="1.3" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Sticky Footer -->
+        <Border Grid.Row="2"
+                Stroke="{StaticResource Linen}"
+                StrokeThickness="1"
+                StrokeShape="Rectangle"
+                BackgroundColor="{StaticResource Bone}"
+                Padding="20,12,20,20">
+            <Button Text="Prendre rendez-vous"
+                    Command="{Binding BookAnyCommand}"
+                    Style="{StaticResource PrimaryBtn}" />
+        </Border>
+    </Grid>
+</ContentView>

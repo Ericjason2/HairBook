@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- HairBook Luxury Warm Neutral Palette -->
+    <Color x:Key="Bone">#EDEDE9</Color>
+    <Color x:Key="Sand">#D6CCC2</Color>
+    <Color x:Key="Cream">#F5EBE0</Color>
+    <Color x:Key="Linen">#E3D5CA</Color>
+    <Color x:Key="Accent">#D5BDAF</Color>
+    <Color x:Key="Ink">#1D1C1A</Color>
+    <Color x:Key="Muted">#68625C</Color>
+    <Color x:Key="Subtle">#9A938C</Color>
+    <Color x:Key="White">#FFFFFF</Color>
+    <Color x:Key="Transparent">#00000000</Color>
+
+    <!-- Status Badges Colors -->
+    <Color x:Key="GreenText">#166534</Color>
+    <Color x:Key="GreenBg">#DCFCE7</Color>
+    <Color x:Key="OrangeText">#9A3412</Color>
+    <Color x:Key="OrangeBg">#FFEDD5</Color>
+    <Color x:Key="RedText">#B91C1C</Color>
+    <Color x:Key="RedBg">#FEE2E2</Color>
+    <Color x:Key="GrayText">#57534E</Color>
+    <Color x:Key="GrayBg">#F5F5F4</Color>
+
+    <!-- MAUI Default Compatibility Aliases -->
+    <Color x:Key="Primary">#1D1C1A</Color>
+    <Color x:Key="PrimaryDark">#1D1C1A</Color>
+    <Color x:Key="PrimaryDarkText">#F5EBE0</Color>
+    <Color x:Key="Secondary">#D5BDAF</Color>
+    <Color x:Key="SecondaryDarkText">#1D1C1A</Color>
+    <Color x:Key="Tertiary">#E3D5CA</Color>
+    <Color x:Key="Black">#1D1C1A</Color>
+
+    <!-- MAUI Gray & Accent Palette expected by Styles.xaml -->
+    <Color x:Key="Gray100">#E1E1E1</Color>
+    <Color x:Key="Gray200">#C8C8C8</Color>
+    <Color x:Key="Gray300">#ACACAC</Color>
+    <Color x:Key="Gray400">#919191</Color>
+    <Color x:Key="Gray500">#6E6E6E</Color>
+    <Color x:Key="Gray600">#404040</Color>
+    <Color x:Key="Gray900">#212121</Color>
+    <Color x:Key="Gray950">#141414</Color>
+    <Color x:Key="MidnightBlue">#1D1C1A</Color>
+    <Color x:Key="OffBlack">#1D1C1A</Color>
+    <Color x:Key="Magenta">#D5BDAF</Color>
+
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="BoneBrush" Color="{StaticResource Bone}"/>
+    <SolidColorBrush x:Key="SandBrush" Color="{StaticResource Sand}"/>
+    <SolidColorBrush x:Key="CreamBrush" Color="{StaticResource Cream}"/>
+    <SolidColorBrush x:Key="LinenBrush" Color="{StaticResource Linen}"/>
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource Accent}"/>
+    <SolidColorBrush x:Key="InkBrush" Color="{StaticResource Ink}"/>
+    <SolidColorBrush x:Key="MutedBrush" Color="{StaticResource Muted}"/>
+    <SolidColorBrush x:Key="SubtleBrush" Color="{StaticResource Subtle}"/>
+    <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}"/>
+    <SolidColorBrush x:Key="TransparentBrush" Color="{StaticResource Transparent}"/>
+
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
+    <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>
+    <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}"/>
+    <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}"/>
+
+    <SolidColorBrush x:Key="Gray100Brush" Color="{StaticResource Gray100}"/>
+    <SolidColorBrush x:Key="Gray200Brush" Color="{StaticResource Gray200}"/>
+    <SolidColorBrush x:Key="Gray300Brush" Color="{StaticResource Gray300}"/>
+    <SolidColorBrush x:Key="Gray400Brush" Color="{StaticResource Gray400}"/>
+    <SolidColorBrush x:Key="Gray500Brush" Color="{StaticResource Gray500}"/>
+    <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}"/>
+    <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
+    <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
+    <SolidColorBrush x:Key="MidnightBlueBrush" Color="{StaticResource MidnightBlue}"/>
+    <SolidColorBrush x:Key="OffBlackBrush" Color="{StaticResource OffBlack}"/>
+    <SolidColorBrush x:Key="MagentaBrush" Color="{StaticResource Magenta}"/>
+
+</ResourceDictionary>

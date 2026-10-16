@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HairBook.ViewModels"
+             xmlns:models="clr-namespace:HairBook.Models"
+             x:Class="HairBook.Views.StyleDetailView"
+             x:DataType="vm:StyleDetailViewModel"
+             BackgroundColor="{StaticResource Bone}">
+
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="0">
+                <!-- Hero Image with Top Overlay Buttons -->
+                <Grid HeightRequest="380">
+                    <Image Source="{Binding Style.Image}" Aspect="AspectFill" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+
+                    <!-- Top Bar Overlay -->
+                    <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Start" Padding="16,20">
+                        <Border Grid.Column="0"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 20"
+                                BackgroundColor="#B3EDEDE9"
+                                WidthRequest="40"
+                                HeightRequest="40">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GoBackCommand}" />
+                            </Border.GestureRecognizers>
+                            <Label Text="&#xe048;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Ink}" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+
+                        <Border Grid.Column="2"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 20"
+                                BackgroundColor="#B3EDEDE9"
+                                WidthRequest="40"
+                                HeightRequest="40">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ToggleFavoriteCommand}" />
+                            </Border.GestureRecognizers>
+                            <Label Text="{Binding Style.IsFavorite, Converter={StaticResource BoolToHeartGlyphConverter}}"
+                                   FontFamily="Lucide"
+                                   TextColor="{Binding Style.IsFavorite, Converter={StaticResource BoolToHeartColorConverter}}"
+                                   FontSize="18"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+                        </Border>
+                    </Grid>
+                </Grid>
+
+                <!-- Sheet Details with negative top margin overlapping image -->
+                <Border StrokeThickness="0"
+                        StrokeShape="RoundRectangle 32,32,0,0"
+                        BackgroundColor="{StaticResource Bone}"
+                        Margin="0,-30,0,0"
+                        Padding="24,24,24,32">
+                    <VerticalStackLayout Spacing="20">
+                        <!-- Category Badge -->
+                        <Border Style="{StaticResource AccentBadgeBorder}" HorizontalOptions="Start">
+                            <Label Text="{Binding Style.Category}"
+                                   FontFamily="OpenSansSemibold"
+                                   FontSize="12"
+                                   TextColor="{StaticResource Ink}" />
+                        </Border>
+
+                        <!-- Title & Description -->
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="{Binding Style.Name}"
+                                   Style="{StaticResource DisplayTitle}"
+                                   FontSize="36" />
+                            <Label Text="{Binding Style.Description}"
+                                   Style="{StaticResource BodyMuted}"
+                                   FontSize="15"
+                                   LineHeight="1.3" />
+                        </VerticalStackLayout>
+
+                        <!-- 3 Stats Columns -->
+                        <Border Style="{StaticResource CardBorder}" Padding="16,14">
+                            <Grid ColumnDefinitions="*,*,*">
+                                <VerticalStackLayout Grid.Column="0" Spacing="2" HorizontalOptions="Center">
+                                    <Label Text="Durée" Style="{StaticResource CaptionSubtle}" HorizontalTextAlignment="Center" />
+                                    <Label Text="{Binding Style.FormattedDuration}" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" HorizontalTextAlignment="Center" />
+                                </VerticalStackLayout>
+                                <BoxView Grid.Column="0" HorizontalOptions="End" WidthRequest="1" Color="{StaticResource Linen}" />
+
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" HorizontalOptions="Center">
+                                    <Label Text="Prix" Style="{StaticResource CaptionSubtle}" HorizontalTextAlignment="Center" />
+                                    <Label Text="{Binding Style.FormattedPrice}" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" HorizontalTextAlignment="Center" />
+                                </VerticalStackLayout>
+                                <BoxView Grid.Column="1" HorizontalOptions="End" WidthRequest="1" Color="{StaticResource Linen}" />
+
+                                <VerticalStackLayout Grid.Column="2" Spacing="2" HorizontalOptions="Center">
+                                    <Label Text="Catégorie" Style="{StaticResource CaptionSubtle}" HorizontalTextAlignment="Center" />
+                                    <Label Text="{Binding Style.Category}" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" HorizontalTextAlignment="Center" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+
+                        <!-- Realisée par Barber Card -->
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Réalisée par" Style="{StaticResource SectionTitle}" />
+                            <Border Style="{StaticResource CardBorder}" Padding="12">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ViewBarberCommand}" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12" VerticalOptions="Center">
+                                    <Border Grid.Column="0"
+                                            StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 18"
+                                            WidthRequest="56"
+                                            HeightRequest="56">
+                                        <Image Source="{Binding Barber.Avatar}" Aspect="AspectFill" />
+                                    </Border>
+
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                        <HorizontalStackLayout Spacing="4">
+                                            <Label Text="{Binding Barber.Name}" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource Ink}" />
+                                            <Label Text="&#xe06c;" FontFamily="Lucide" FontSize="12" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                        </HorizontalStackLayout>
+                                        <HorizontalStackLayout Spacing="6">
+                                            <HorizontalStackLayout Spacing="3">
+                                                <Label Text="&#xe176;" FontFamily="Lucide" FontSize="12" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                                <Label Text="{Binding Barber.RatingFormatted}" FontFamily="OpenSansSemibold" FontSize="12" TextColor="{StaticResource Ink}" />
+                                            </HorizontalStackLayout>
+                                            <HorizontalStackLayout Spacing="3">
+                                                <Label Text="&#xe111;" FontFamily="Lucide" FontSize="12" TextColor="{StaticResource Muted}" VerticalOptions="Center" />
+                                                <Label Text="{Binding Barber.ShortLocation}" FontSize="12" TextColor="{StaticResource Muted}" />
+                                            </HorizontalStackLayout>
+                                        </HorizontalStackLayout>
+                                        <Label Text="{Binding Barber.FormattedWorks}" FontSize="12" TextColor="{StaticResource Muted}" />
+                                    </VerticalStackLayout>
+
+                                    <Label Grid.Column="2" Text="&#xe06f;" FontFamily="Lucide" FontSize="18" TextColor="{StaticResource Muted}" VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Also by barber -->
+                        <VerticalStackLayout Spacing="12" Margin="0,10,0,0">
+                            <Label Text="{Binding Barber.Name, StringFormat='Aussi chez {0}'}" Style="{StaticResource SectionTitle}" />
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                                <FlexLayout BindableLayout.ItemsSource="{Binding MoreStylesByBarber}"
+                                            Wrap="Wrap"
+                                            JustifyContent="SpaceBetween">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate x:DataType="models:HairStyle">
+                                            <VerticalStackLayout Spacing="4" WidthRequest="155">
+                                                <Border StrokeThickness="0"
+                                                        StrokeShape="RoundRectangle 20"
+                                                        BackgroundColor="{StaticResource Sand}"
+                                                        HeightRequest="180">
+                                                    <Image Source="{Binding Image}" Aspect="AspectFill" />
+                                                </Border>
+                                                <Label Text="{Binding Name}" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" />
+                                                <Label Text="{Binding FormattedPrice}" FontSize="13" TextColor="{StaticResource Muted}" />
+                                            </VerticalStackLayout>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </FlexLayout>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Sticky Footer -->
+        <Border Grid.Row="1"
+                Stroke="{StaticResource Linen}"
+                StrokeThickness="1"
+                StrokeShape="Rectangle"
+                BackgroundColor="{StaticResource Bone}"
+                Padding="20,12,20,20">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="20" VerticalOptions="Center">
+                <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                    <Label Text="Prix" Style="{StaticResource CaptionSubtle}" />
+                    <Label Text="{Binding Style.FormattedPrice}"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="18"
+                           TextColor="{StaticResource Ink}" />
+                </VerticalStackLayout>
+
+                <Button Grid.Column="1"
+                        Text="Réserver cette prestation"
+                        Command="{Binding StartBookingCommand}"
+                        Style="{StaticResource PrimaryBtn}"
+                        HeightRequest="50" />
+            </Grid>
+        </Border>
+    </Grid>
+</ContentView>

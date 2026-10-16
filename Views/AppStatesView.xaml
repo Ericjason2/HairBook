@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:HairBook.ViewModels"
+             x:Class="HairBook.Views.AppStatesView"
+             x:DataType="vm:AppStatesViewModel"
+             BackgroundColor="{StaticResource Bone}">
+
+    <Grid>
+        <Grid RowDefinitions="Auto,*">
+            <!-- App Header -->
+            <Grid Grid.Row="0" ColumnDefinitions="Auto,*" Padding="20,16">
+                <Button Grid.Column="0"
+                        Text="&#xe048;"
+                        FontFamily="Lucide"
+                        Command="{Binding GoBackCommand}"
+                        BackgroundColor="{StaticResource Transparent}"
+                        TextColor="{StaticResource Ink}"
+                        FontSize="18"
+                        HorizontalOptions="Start"
+                        Padding="0"
+                        WidthRequest="36"
+                        HeightRequest="36" />
+                <Label Grid.Column="1"
+                       Text="États de l’interface"
+                       FontFamily="OpenSansSemibold"
+                       FontSize="18"
+                       TextColor="{StaticResource Ink}"
+                       HorizontalOptions="Center"
+                       Margin="-36,0,0,0"
+                       VerticalOptions="Center" />
+            </Grid>
+
+            <!-- Showcase Content -->
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Spacing="28" Padding="20,10,20,32">
+                    <!-- SECTION 1: Chargement (Skeletons) -->
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Chargement" Style="{StaticResource SectionTitle}" />
+                        <Label Text="Skeleton loaders affichés pendant le chargement du contenu." Style="{StaticResource CaptionSubtle}" />
+
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <Border Grid.Column="0" StrokeThickness="0" StrokeShape="RoundRectangle 20" BackgroundColor="{StaticResource Sand}" HeightRequest="160" />
+                            <Border Grid.Column="1" StrokeThickness="0" StrokeShape="RoundRectangle 20" BackgroundColor="{StaticResource Sand}" HeightRequest="160" />
+                        </Grid>
+
+                        <Border Style="{StaticResource CardBorder}" Padding="14">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" VerticalOptions="Center">
+                                <Border Grid.Column="0" StrokeThickness="0" StrokeShape="RoundRectangle 16" BackgroundColor="{StaticResource Sand}" WidthRequest="50" HeightRequest="50" />
+                                <VerticalStackLayout Grid.Column="1" Spacing="6" VerticalOptions="Center">
+                                    <Border StrokeThickness="0" StrokeShape="RoundRectangle 6" BackgroundColor="{StaticResource Sand}" HeightRequest="14" WidthRequest="140" HorizontalOptions="Start" />
+                                    <Border StrokeThickness="0" StrokeShape="RoundRectangle 6" BackgroundColor="{StaticResource Sand}" HeightRequest="10" WidthRequest="80" HorizontalOptions="Start" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- SECTION 2: États vides -->
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="États vides" Style="{StaticResource SectionTitle}" />
+                        <Label Text="Un message clair et une action pour repartir." Style="{StaticResource CaptionSubtle}" />
+
+                        <Border Style="{StaticResource CardBorder}" Padding="20">
+                            <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                                <Label Text="&#xe063;" FontFamily="Lucide" FontSize="36" TextColor="{StaticResource Muted}" HorizontalOptions="Center" />
+                                <Label Text="Vous n’avez aucun rendez-vous." Style="{StaticResource DisplayTitle}" FontSize="20" HorizontalTextAlignment="Center" />
+                                <Label Text="Trouvez un barber près de chez vous et réservez en quelques secondes." Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
+                                <Button Text="Trouver un barber" Style="{StaticResource SoftBtn}" HorizontalOptions="Center" Margin="0,8,0,0" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- SECTION 3: Erreur & Retry -->
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Erreur réseau" Style="{StaticResource SectionTitle}" />
+                        <Label Text="Proposer de réessayer sans quitter l’écran." Style="{StaticResource CaptionSubtle}" />
+
+                        <Border Style="{StaticResource CardBorder}" Padding="20">
+                            <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                                <Label Text="&#xe158;" FontFamily="Lucide" FontSize="36" TextColor="{StaticResource Muted}" HorizontalOptions="Center" />
+                                <Label Text="Une erreur est survenue" Style="{StaticResource DisplayTitle}" FontSize="20" HorizontalTextAlignment="Center" />
+                                <Label Text="Vérifiez votre connexion internet et réessayez." Style="{StaticResource BodyMuted}" HorizontalTextAlignment="Center" />
+                                <Button Text="Réessayer" Command="{Binding RetryErrorCommand}" Style="{StaticResource PrimaryBtn}" HeightRequest="44" HorizontalOptions="Center" Margin="0,8,0,0" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- SECTION 4: Notifications Toasts -->
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Confirmation visuelle (Toasts)" Style="{StaticResource SectionTitle}" />
+                        <Label Text="Retour immédiat après une action de l’utilisateur." Style="{StaticResource CaptionSubtle}" />
+
+                        <Border Style="{StaticResource CardBorder}" Padding="14">
+                            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                                <Label Grid.Column="0" Text="Après une réservation" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Button Grid.Column="1" Text="Afficher" Command="{Binding TriggerToastCommand}" CommandParameter="Rendez-vous réservé avec succès !" Style="{StaticResource PrimaryBtn}" HeightRequest="36" Padding="14,0" FontSize="12" />
+                            </Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource CardBorder}" Padding="14">
+                            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                                <Label Grid.Column="0" Text="Après une modification" FontFamily="OpenSansSemibold" FontSize="14" TextColor="{StaticResource Ink}" VerticalOptions="Center" />
+                                <Button Grid.Column="1" Text="Afficher" Command="{Binding TriggerToastCommand}" CommandParameter="Modifications enregistrées" Style="{StaticResource PrimaryBtn}" HeightRequest="36" Padding="14,0" FontSize="12" />
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- SECTION 5: Modale de confirmation -->
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Modale de confirmation" Style="{StaticResource SectionTitle}" />
+                        <Label Text="Sécurise les actions irréversibles." Style="{StaticResource CaptionSubtle}" />
+
+                        <Button Text="Tester modale d'annulation" Command="{Binding OpenConfirmCommand}" Style="{StaticResource OutlineBtn}" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+
+        <!-- Confirm Modal Overlay -->
+        <Grid BackgroundColor="#66000000"
+              IsVisible="{Binding IsConfirmModalOpen}"
+              Padding="24"
+              VerticalOptions="FillAndExpand"
+              HorizontalOptions="FillAndExpand">
+            <Border StrokeThickness="0"
+                    StrokeShape="RoundRectangle 28"
+                    BackgroundColor="{StaticResource Bone}"
+                    VerticalOptions="Center"
+                    Padding="24"
+                    MaximumWidthRequest="380">
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Annuler le rendez-vous ?" Style="{StaticResource DisplayTitle}" FontSize="22" />
+                    <Label Text="Cette action est irréversible." Style="{StaticResource BodyMuted}" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Text="Non, garder" Command="{Binding CancelConfirmCommand}" Style="{StaticResource SoftBtn}" />
+                        <Button Grid.Column="1" Text="Oui, annuler" Command="{Binding ConfirmActionCommand}" BackgroundColor="#B91C1C" TextColor="{StaticResource White}" CornerRadius="14" HeightRequest="40" FontFamily="OpenSansSemibold" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentView>
